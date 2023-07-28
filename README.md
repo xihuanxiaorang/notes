@@ -208,3 +208,13 @@ MethodInterceptor <|.. AfterReturningAdviceInterceptor
 * [ ] 每天记得喝八杯水
 * [x] ~每天运动一小时~
 * [x] 每天看书两小时
+
+## FAQ问答示例
+
++ 问题1? +
+
+  答案1
+
++ 问题2? +
+
+  答案2
