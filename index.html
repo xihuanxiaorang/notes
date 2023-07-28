@@ -13,6 +13,11 @@
       rel="stylesheet"
       href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css"
     />
+    <!-- toc插件样式 -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/docsify-toc@1.0.0/dist/toc.css"
+    />
   </head>
   <body>
     <div id="app"></div>
@@ -58,6 +63,12 @@
         plantuml: {
           skin: "classic",
         },
+        // toc右侧目录，配置请参考 https://github.com/mrpotatoes/docsify-toc
+        toc: {
+          scope: ".markdown-section",
+          headings: "h1, h2, h3, h4, h5, h6",
+          title: "目录",
+        },
       };
     </script>
     <!-- Docsify v4 -->
@@ -72,6 +83,8 @@
     <script src="https://cdn.jsdelivr.net/npm/docsify-updated/src/time-updater.min.js"></script>
     <!-- 进度条美化 -->
     <script src="https://cdn.jsdelivr.net/npm/docsify-progress@latest/dist/progress.min.js"></script>
+    <!-- toc右侧目录 -->
+    <script src="https://unpkg.com/docsify-toc@1.0.0/dist/toc.js"></script>
     <!-- 回到顶部 -->
     <script src="https://cdn.jsdelivr.net/gh/Sumsung524/docsify-backTop/dist/docsify-backTop.min.js"></script>
     <!-- 回到顶部，配置请参考 https://github.com/Sumsung524/docsify-backTop -->
@@ -86,6 +99,7 @@
     </script>
     <!-- PlantUML支持 -->
     <script src="//unpkg.com/docsify-plantuml/dist/docsify-plantuml.min.js"></script>
+    <!-- 百度统计 -->
     <script>
       var _hmt = _hmt || [];
       (function () {

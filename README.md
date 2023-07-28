@@ -202,3 +202,9 @@ MethodInterceptor <|.. AfterReturningAdviceInterceptor
 
 @enduml
 ```
+
+## 任务列表
+
+* [ ] 每天记得喝八杯水
+* [x] ~每天运动一小时~
+* [x] 每天看书两小时
