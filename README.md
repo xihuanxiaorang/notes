@@ -53,3 +53,152 @@ Ciao!
 
 > [!ATTENTION|style:flat]
 > An alert of type 'attention' using global style 'callout'.
+
+
+## PlantUML示例
+
+```plantuml
+@startuml
+
+interface Invocation << interface >> {
+  + getArguments(): Object[]
+}
+
+interface Joinpoint << interface >> {
+  + getThis(): Object?
+  + proceed(): Object?
+  + getStaticPart(): AccessibleObject
+}
+
+interface MethodInvocation << interface >> {
+  + getMethod(): Method
+}
+
+interface ProxyMethodInvocation << interface >> {
+  + getProxy(): Object
+  + setArguments(Object[]): void
+  + setUserAttribute(String, Object?): void
+  + invocableClone(): MethodInvocation
+  + invocableClone(Object[]): MethodInvocation
+  + getUserAttribute(String): Object?
+}
+
+class ReflectiveMethodInvocation {
+	# proxy: Object
+	# target: Object
+	# method: Method
+	# arguments: Object[]
+	- targetClass: Class<?>
+	# interceptorsAndDynamicMethodMatchers: List<?>
+	- currentInterceptorIndex: int = -1
+  + getArguments(): Object[]
+  + proceed(): Object?
+  + setUserAttribute(String, Object?): void
+  + invocableClone(): MethodInvocation
+  + getStaticPart(): AccessibleObject
+  + getThis(): Object?
+  # invokeJoinpoint(): Object?
+  + getUserAttribute(String): Object?
+  + setArguments(Object[]): void
+  + getUserAttributes(): Map<String, Object>
+  + getMethod(): Method
+  + invocableClone(Object[]): MethodInvocation
+  + toString(): String
+  + getProxy(): Object
+}
+
+class CglibMethodInvocation {
+	- methodProxy: MethodProxy
+	+ proceed(): Object
+	+ invokeJoinpoint(): Object
+}
+
+Joinpoint <|-- Invocation
+Invocation <|-- MethodInvocation
+MethodInvocation <|-- ProxyMethodInvocation
+ProxyMethodInvocation <|.. ReflectiveMethodInvocation
+ReflectiveMethodInvocation <|-- CglibMethodInvocation
+
+@enduml
+```
+
+```plantuml
+@startuml
+
+interface Advice {
+}
+
+interface Interceptor {
+
+}
+
+interface MethodInterceptor { 
++ Object invoke(MethodInvocation invocation)
+}
+
+abstract class AbstractAspectJAdvice {
+}
+
+class AspectJMethodBeforeAdvice { 
++ Object invoke(MethodInvocation mi)
+}
+
+class AspectJAroundAdvice { 
++ Object invoke(MethodInvocation mi)
+}
+
+class AspectJAfterReturningAdvice { 
++ void afterReturning(@Nullable Object returnValue, Method method, Object[] args, @Nullable Object target)
+}
+
+class AspectJAfterThrowingAdvice { 
++ Object invoke(MethodInvocation mi)
+}
+
+class AspectJAfterAdvice { 
++ Object invoke(MethodInvocation mi)
+}
+
+interface AdvisorAdapter << interface >> { 
++ boolean supportsAdvice(Advice advice)
++ MethodInterceptor getInterceptor(Advisor advisor)
+}
+
+class MethodBeforeAdviceAdapter { 
++ boolean supportsAdvice(Advice advice) 
++ MethodInterceptor getInterceptor(Advisor advisor)
+}
+
+class AfterReturningAdviceAdapter { 
++ boolean supportsAdvice(Advice advice)
++ MethodInterceptor getInterceptor(Advisor advisor)
+}
+
+class MethodBeforeAdviceInterceptor { 
+- MethodBeforeAdvice  advice
++ Object invoke(MethodInvocation mi)
+}
+
+class AfterReturningAdviceInterceptor { 
+- AfterReturningAdvice  advice
++ Object invoke(MethodInvocation mi)
+}
+
+Advice <|-- Interceptor
+Interceptor <|-- MethodInterceptor
+Advice <|.. AbstractAspectJAdvice
+AbstractAspectJAdvice <|-- AspectJMethodBeforeAdvice
+AbstractAspectJAdvice <|-- AspectJAroundAdvice
+MethodInterceptor <|.. AspectJAroundAdvice
+AbstractAspectJAdvice <|-- AspectJAfterReturningAdvice
+AbstractAspectJAdvice <|-- AspectJAfterThrowingAdvice
+MethodInterceptor <|.. AspectJAfterThrowingAdvice
+AbstractAspectJAdvice <|-- AspectJAfterAdvice
+MethodInterceptor <|.. AspectJAfterAdvice
+AdvisorAdapter <|.. MethodBeforeAdviceAdapter
+AdvisorAdapter <|.. AfterReturningAdviceAdapter
+MethodInterceptor <|.. MethodBeforeAdviceInterceptor
+MethodInterceptor <|.. AfterReturningAdviceInterceptor
+
+@enduml
+```

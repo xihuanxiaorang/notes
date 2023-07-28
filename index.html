@@ -54,6 +54,10 @@
           color: "var(--theme-color,#42b983)",
           height: "3px",
         },
+        // PlantUML，配置请参考 https://github.com/imyelo/docsify-plantuml
+        plantuml: {
+          skin: "classic",
+        },
       };
     </script>
     <!-- Docsify v4 -->
@@ -80,5 +84,7 @@
         bgColor: "\#2096ff", // 背景颜色，#fff、pink等，logo为svg图标时，不填。
       };
     </script>
+    <!-- PlantUML支持 -->
+    <script src="//unpkg.com/docsify-plantuml/dist/docsify-plantuml.min.js"></script>
   </body>
 </html>
