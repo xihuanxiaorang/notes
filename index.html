@@ -73,12 +73,29 @@
         },
         // 全文搜索，详细配置请参考 https://docsify.js.org/#/zh-cn/plugins?id=%e5%85%a8%e6%96%87%e6%90%9c%e7%b4%a2-search
         search: "auto",
+        // 代码复制，详细配置请参考 https://github.com/jperasmus/docsify-copy-code
+        copyCode: {
+          buttonText: "Copy to clipboard",
+          errorText: "Error",
+          successText: "Copied",
+        },
+        // 分页导航，详细配置请参考 https://github.com/imyelo/docsify-pagination
+        pagination: {
+          previousText: "上一章节",
+          nextText: "下一章节",
+          crossChapter: true,
+          crossChapterText: true,
+        },
       };
     </script>
     <!-- Docsify v4 -->
     <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
     <!-- 全文搜索 -->
     <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+    <!-- 代码复制 -->
+    <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+    <!-- 分页导航 -->
+    <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
     <!-- 字数统计 -->
     <script src="//unpkg.com/docsify-count/dist/countable.js"></script>
     <!-- tabs选项卡 -->
@@ -117,5 +134,9 @@
     <script src="https://unpkg.com/docsify-toc@1.0.0/dist/toc.js"></script>
     <!-- 手风琴，多用于FAQ问答场景 -->
     <script src="//unpkg.com/docsify-accordion/src/index.js"></script>
+    <!-- 图片缩放 -->
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+    <!-- Java代码高亮显示 -->
+    <script src="//cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
   </body>
 </html>
