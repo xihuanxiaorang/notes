@@ -10,6 +10,24 @@
       content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
     />
     <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/public/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/public/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/public/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link
       rel="stylesheet"
       href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css"
     />
@@ -20,12 +38,18 @@
     />
     <!-- 手风琴样式 -->
     <link rel="stylesheet" href="//unpkg.com/docsify-accordion/src/style.css" />
+    <style>
+      .pagination-item-title {
+        font-size: 1em !important;
+      }
+    </style>
   </head>
   <body>
     <div id="app"></div>
     <script>
       window.$docsify = {
         name: "CodeGuide",
+        nameLink: "/",
         repo: "https://github.com/xihuanxiaorang/docs",
         // 启用封面页，默认 _coverpage.md
         coverpage: true,
@@ -72,13 +96,21 @@
           title: "目录",
         },
         // 全文搜索，详细配置请参考 https://docsify.js.org/#/zh-cn/plugins?id=%e5%85%a8%e6%96%87%e6%90%9c%e7%b4%a2-search
-        search: "auto",
+        search: {
+          paths: "auto",
+          placeholder: "🔍 Search",
+          noData: "😒 No Result",
+          // Headline depth, 1 - 6
+          depth: 6,
+          maxAge: 86400000, // 过期时间，单位毫秒，默认一天
+        },
         // 代码复制，详细配置请参考 https://github.com/jperasmus/docsify-copy-code
         copyCode: {
-          buttonText: "Copy to clipboard",
-          errorText: "Error",
-          successText: "Copied",
+          buttonText: "Copy",
+          errorText: "X",
+          successText: "√",
         },
+        //
         // 分页导航，详细配置请参考 https://github.com/imyelo/docsify-pagination
         pagination: {
           previousText: "上一章节",
@@ -86,6 +118,8 @@
           crossChapter: true,
           crossChapterText: true,
         },
+        // 切换页面后自动跳转到顶部
+        auto2top: true,
       };
     </script>
     <!-- Docsify v4 -->
