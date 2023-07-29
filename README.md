@@ -54,7 +54,7 @@ Ciao!
 > [!ATTENTION|style:flat]
 > An alert of type 'attention' using special style 'flat'.
 
-> [!important]
+> [!IMPORTANT]
 > An alert of type 'important' using global style 'callout'.
 
 
