@@ -58,6 +58,10 @@
         coverpage: true,
         // 加载自定义侧边栏，默认 _sidebar.md
         loadSidebar: true,
+        // 添加 alias，避免不必要的回退，不添加这个配置项控制台虽然会报错，但是不影响使用！
+        alias: {
+          "/.*/_sidebar.md": "/_sidebar.md",
+        },
         // 字数统计
         count: {
           countable: true,
