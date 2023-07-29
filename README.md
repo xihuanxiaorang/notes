@@ -52,7 +52,10 @@ Ciao!
 > An alert of type 'warning' using global style 'callout'.
 
 > [!ATTENTION|style:flat]
-> An alert of type 'attention' using global style 'callout'.
+> An alert of type 'attention' using special style 'flat'.
+
+> [!important]
+> An alert of type 'important' using global style 'callout'.
 
 
 ## PlantUML示例

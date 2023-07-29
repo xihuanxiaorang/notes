@@ -38,9 +38,12 @@
     />
     <!-- 手风琴样式 -->
     <link rel="stylesheet" href="//unpkg.com/docsify-accordion/src/style.css" />
+    <!-- font-awesome样式 -->
+    <link href="/public/css/all.min.css" rel="stylesheet" />
     <style>
       .pagination-item-title {
         font-size: 1em !important;
+        margin-bottom: 10px;
       }
     </style>
   </head>
@@ -73,6 +76,12 @@
         // Alerts提示，配置请参考 https://github.com/fzankl/docsify-plugin-flexible-alerts
         "flexible-alerts": {
           style: "callout",
+          important: {
+            label: "Important",
+            // Assuming that we use Font Awesome
+            icon: "fas fa-palette",
+            className: "tip",
+          },
         },
         // 最近更新记录，配置请参考 https://github.com/pfeak/docsify-updated
         timeUpdater: {
@@ -92,7 +101,7 @@
         // toc右侧目录，配置请参考 https://github.com/mrpotatoes/docsify-toc
         toc: {
           scope: ".markdown-section",
-          headings: "h1, h2, h3, h4, h5, h6",
+          headings: "h2, h3, h4, h5, h6",
           title: "目录",
         },
         // 全文搜索，详细配置请参考 https://docsify.js.org/#/zh-cn/plugins?id=%e5%85%a8%e6%96%87%e6%90%9c%e7%b4%a2-search
