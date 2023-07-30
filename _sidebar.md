@@ -9,6 +9,8 @@
   * 算法
     * [逆波兰表达式](/md/数据结构与算法/算法/逆波兰表达式.md)
 * 源码分析
+  * 集合
+    * [HashMap源码分析](/md/源码分析/集合/HashMap源码分析.md)
   * Spring
     * [Spring-源码环境搭建](/md/源码分析/Spring/Spring-源码环境搭建.md)
     * [Spring-XML版BeanDefinition注册流程](/md/源码分析/Spring/Spring-XML版BeanDefinition注册流程.md)
