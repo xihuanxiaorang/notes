@@ -11,3 +11,4 @@
 * 源码分析
   * Spring
     * [Spring-源码环境搭建](/md/源码分析/Spring/Spring-源码环境搭建.md)
+    * [Spring-XML版BeanDefinition注册流程](/md/源码分析/Spring/Spring-XML版BeanDefinition注册流程.md)
