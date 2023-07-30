@@ -31,11 +31,6 @@
       rel="stylesheet"
       href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css"
     />
-    <!-- toc插件样式 -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/docsify-toc@1.0.0/dist/toc.css"
-    />
     <!-- 手风琴样式 -->
     <link rel="stylesheet" href="//unpkg.com/docsify-accordion/src/style.css" />
     <!-- font-awesome样式 -->
@@ -100,7 +95,7 @@
             label: "代码实现",
             icon: "fas fa-gift",
             className: "tip",
-          }
+          },
         },
         // 最近更新记录，配置请参考 https://github.com/pfeak/docsify-updated
         timeUpdater: {
@@ -116,12 +111,6 @@
         // PlantUML，配置请参考 https://github.com/imyelo/docsify-plantuml
         plantuml: {
           skin: "classic",
-        },
-        // toc右侧目录，配置请参考 https://github.com/mrpotatoes/docsify-toc
-        toc: {
-          scope: ".markdown-section",
-          headings: "h2, h3, h4, h5, h6",
-          title: "目录",
         },
         // 全文搜索，详细配置请参考 https://docsify.js.org/#/zh-cn/plugins?id=%e5%85%a8%e6%96%87%e6%90%9c%e7%b4%a2-search
         search: {
@@ -192,8 +181,6 @@
         s.parentNode.insertBefore(hm, s);
       })();
     </script>
-    <!-- toc右侧目录 -->
-    <script src="https://unpkg.com/docsify-toc@1.0.0/dist/toc.js"></script>
     <!-- 手风琴，多用于FAQ问答场景 -->
     <script src="//unpkg.com/docsify-accordion/src/index.js"></script>
     <!-- 图片缩放 -->
