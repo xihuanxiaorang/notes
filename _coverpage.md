@@ -1,4 +1,4 @@
-![logo](public/blog.png)
+![logo](./public/images/system/blog.png)
 
 # 小让の码场
 
