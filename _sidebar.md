@@ -17,6 +17,7 @@
 * 中间件
   * RabbitMQ
     * [RabbitMQ-入门篇](/md/中间件/RabbitMQ/RabbitMQ-入门篇.md)
+    * [RabbitMQ-高级篇](/md/中间件/RabbitMQ/RabbitMQ-高级篇.md)
 * 源码分析
   * 集合
     * [HashMap源码分析](/md/源码分析/集合/HashMap源码分析.md)
