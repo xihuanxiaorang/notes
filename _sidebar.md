@@ -1,4 +1,7 @@
 * [主页](/README.md)
+* Java核心技术
+  * 其他
+    * [SPI机制](/md/Java核心技术/other/SPI机制.md)
 * [研磨设计模式](/md/研磨设计模式/README.md)
   * [搞定UML类图！](/md/研磨设计模式/搞定UML类图！.md)
   * [简单工厂](/md/研磨设计模式/简单工厂.md)
