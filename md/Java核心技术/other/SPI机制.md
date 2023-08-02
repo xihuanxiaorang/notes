@@ -245,4 +245,21 @@ public class Driver extends NonRegisteringDriver implements java.sql.Driver {
 - 它是指基于你引入的依赖 jar 包，对 SpringBoot 应用进行自动配置
 - 它提供了自动配置功能的依赖 jar 包，通常被称为 Starter，如官方的：spring-boot-starter-redis，非官方的：mybatis-spring-boot-starter 等等
 
-SpringBoot 项目启动的时候默认会自动扫描当前项目的 package，然后将其中的配置类注入到 IoC 容器中。但是，当我们与其他框架进行集成的时候，如 mybatis、rabbitmq 框架等等，SpringBoot 是不支持直接扫描其他框架的 package 的，这个时候则需要使用 Auto-Configuration 机制，基于引入的依赖 jar 包对 SpringBoot 应用进行自动配置，换言之呢，就是将其他 jar 包的配置类注入到 IOC 容器中。<br /><img src="https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308011317905.jpeg" style="zoom: 50%;" /><br />如果你作为 SpringBoot 的开发人员，你会怎样实现 Auto-Configuration 机制呢？<br />大 A：作为 Leader，我先提几点要求：首先，不能脱离 SpringBoot 框架，我可不想重复造轮子！<br />细 B：同意。我们可以继续使用 @Configuration 等已有注解，然后将自动配置类注入到 Spring 的 IOC 容器中。 <br />大 A：作为 Leader，我再提个问题，SpringBoot 框架默认是扫描当前项目的 package 的，那么如何将其他 jar 包中的配置类也注入到 IOC 容器中呢？<br />细 B：让用户使用注解 @ComponentScan 来扫描第三方的 package 吧！ <br />大 A：听起来对用户很不友好啊！用户只想引入依赖的 jar 包就行。既然我们叫“自动配置”，那么能否实现全自动，而不要是半自动呢？<br />细 B：让我想想，这个需求听起来很耳熟。。。要不我们参考参考 Java SPI 的设计思想？<br />![](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308011317365.jpeg)<br />以 [mybatis-spring-boot-autoconfigure](https://github.com/mybatis/spring-boot-starter/tree/master/mybatis-spring-boot-autoconfigure/src/main/java/org/mybatis/spring/boot/autoconfigure) 为例来分析一下 SpringBoot 自动配置：<br />![](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308011318154.png)<br />由上图可知，在 mybatis-spring-boot-autoconfigure 中存在两个自动配置类，分别是 MybatisAutoConfiguration 和 MybatisLanguageDriverAutoConfiguration，然后在 resources 目录下的 META-INF 中确实存在一个 spring.factories 配置文件 ，里面的内容是 KEY-VALUE 的格式，其中 KEY 是 EnableAutoConfiguration 的全限定类名，VALUE 则是两个自动配置类的全限定名，两个类名直接用逗号隔开。<br />简单总结一下 SpringBoot 自动配置的核心流程：<br /><img src="https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308011318413.jpeg" style="zoom: 50%;" /><br />以上，就是 SpringBoot 自动配置的原理，它是不是和 SPI 的设计思想有着异曲同工之妙呢？
+SpringBoot 项目启动的时候默认会自动扫描当前项目的 package，然后将其中的配置类注入到 IoC 容器中。但是，当我们与其他框架进行集成的时候，如 mybatis、rabbitmq 框架等等，SpringBoot 是不支持直接扫描其他框架的 package 的，这个时候则需要使用 Auto-Configuration 机制，基于引入的依赖 jar 包对 SpringBoot 应用进行自动配置，换言之呢，就是将其他 jar 包的配置类注入到 IOC 容器中。<br /><img src="https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308011317905.jpeg" style="zoom: 50%;" /><br />如果你作为 SpringBoot 的开发人员，你会怎样实现 Auto-Configuration 机制呢？<br />大 A：作为 Leader，我先提几点要求：首先，不能脱离 SpringBoot 框架，我可不想重复造轮子！<br />细 B：同意。我们可以继续使用 @Configuration 等已有注解，然后将自动配置类注入到 Spring 的 IOC 容器中。 <br />大 A：作为 Leader，我再提个问题，SpringBoot 框架默认是扫描当前项目的 package 的，那么如何将其他 jar 包中的配置类也注入到 IOC 容器中呢？<br />细 B：让用户使用注解 @ComponentScan 来扫描第三方的 package 吧！ <br />大 A：听起来对用户很不友好啊！用户只想引入依赖的 jar 包就行。既然我们叫“自动配置”，那么能否实现全自动，而不要是半自动呢？<br />细 B：让我想想，这个需求听起来很耳熟。。。要不我们参考参考 Java SPI 的设计思想？<br />![](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308011317365.jpeg)<br />以 [mybatis-spring-boot-autoconfigure](https://github.com/mybatis/spring-boot-starter/tree/master/mybatis-spring-boot-autoconfigure/src/main/java/org/mybatis/spring/boot/autoconfigure) 为例来分析一下 SpringBoot 自动配置：<br />![](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308011318154.png)<br />由上图可知，在 mybatis-spring-boot-autoconfigure 中存在两个自动配置类，分别是 MybatisAutoConfiguration 和 MybatisLanguageDriverAutoConfiguration，然后在 resources 目录下的 META-INF 中确实存在一个 spring.factories 配置文件 ，里面的内容是 KEY-VALUE 的格式，其中 KEY 是 EnableAutoConfiguration 的全限定类名，VALUE 则是两个自动配置类的全限定名，两个类名直接用逗号隔开。<br />简单总结一下 SpringBoot 自动配置的核心流程：
+
+```plantuml
+@startuml
+start
+:SpringBoot 应用程序启动;
+:通过 SpringFactories 机制加载配置文件;
+note right: 通过 ClassLoader 去获取 classpath 类路径下的配置文件 META-INF/spring.factories
+:找出所有的自动配置类 ;
+note right: 在所有的 META-INF/spring.factories 配置文件中，筛选出以 EnableAutoConfiguration 全限定名为 KEY 的所有自动配置类
+:根据注解 @Conditional 过滤掉不必要的自动配置类;
+note right: @Conditional 注解提供了一种灵活的过滤机制
+:注入到 Spring IoC 容器中;
+stop
+@enduml
+```
+
+以上，就是 SpringBoot 自动配置的原理，它是不是和 SPI 的设计思想有着异曲同工之妙呢？
