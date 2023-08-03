@@ -251,4 +251,66 @@
    2. 如果当前 Bean 实例对象实现了 DisposableBean 接口，则会调用当前 Bean 实例对象中对该接口重写的销毁方法 destroy()
    3. 如果当前 Bean 实例对象在 bean 标签配置了中 destroy-method 属性，则会通过反射的方式调用自定义的销毁方法 destroyMthod()
 
-![img](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202307251057195.jpeg)
+```plantuml
+@startuml
+start
+
+#c3e0f4:finishBeanFactoryInitialization(beanFactory);
+card #f4cece InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation\n在 Bean 实例化之前进行后置处理，Spring 让咱们有机会返回一个代理而不是目标 Bean 实例; {
+  #f4cece:AbstractAutoProxyCreator#postProcessBeforeInstantiation
+  收集容器中所有的增强器（Advisor）和判断当前组件是否需要进行增强
+  如果明确为当前组件指定了自定义的 TargetSource 的话，说明存在自己的代理逻辑实现，则就会直接在此处提前创建出代理对象并返回！;
+}
+if (是否已经提前创建出了代理对象？) then (否)
+  #f4cece:SmartInstantiationAwareBeanPostProcessor#determineCandidateConstructors
+  推断使用哪个构造方法创建 Bean 实例对象;
+  if (返回构造器？) then (是，返回指定的构造器)
+    #c3e0f4:构造器方式的自动注入与对象创建;
+    stop;
+  else (否)
+    #c9e7cf:使用 BeanDefinition 中的构造器（兜底方案：无参构造器）创建 Bean 实例对象;
+    card #c9e7cf populateBean() 属性赋值（依赖注入）{
+      #f4cece:MergedBeanDefinitionPostProcessor#postProcessMergedBeanDefinition
+      处理合并的 BeanDefinition 信息（可以再次修改 BeanDefinition 信息）
+      将 @Autowired、@Resource、@Value 等注解的元信息封装到 BeanDefinition 中;
+      #f4cece:InstantiationAwareBeanPostProcessor#postProcessAfterInstantiation
+      在 Bean 实例化之后，属性赋值之前进行后置处理，如果方法返回 false，则会中断后续流程提供一个修改 Bean 状态的机会，默认未做任何操作;
+      card #f4cece  InstantiationAwareBeanPostProcessor#postProcessProperties处理属性值，返回 PropertyValues {
+        #f4cece:AutowiredAnnotationBeanPostProcessor#postProcessProperties
+        对标注了 @Autowired 和 @Value 注解的属性和方法完成依赖注入;
+        #f4cece:CommonAnnotationBeanPostProcessor#postProcessProperties
+        对标注了 @Resource 注解的属性和方法完成依赖注入;
+      }
+      #c5cdf1:applyPropertyValues()
+      通过反射调用 setter 方法的方式给 Bean 实例对象中的属性进行赋值;
+    }
+    card #c9e7cf initializeBean() 初始化 {
+      #c3e0f4: invokeAwareMethods()
+      调用实现了 Aware 接口（感知接口）的方法，如 BeanClassLoaderAware、BeanFactoryAware;
+      card #f4cece   BeanPostProcessor#postProcessBeforeInitialization\n在 Bean 初始化之前进行后置处理 {
+        #f4cece: ApplicationContextAwareProcessor#postProcessBeforeInitialization
+        调用实现了诸如 ApplicationContextAware、EnvironmentAware、ResourceLoaderAware、MessageSourceAware 等Aware 接口中的方法;
+        #f4cece:CommonAnnotationBeanPostProcessor#postProcessProperties
+        对标注了 @Resource 注解的属性和方法完成依赖注入;
+      }
+      card #c3e0f4  invokeInitMethods() 执行初始化方法 {
+        #c3e0f4: InitializingBean#afterPropertiesSet
+        在组件完成属性赋值之后执行初始化方法;
+        #c3e0f4: invokeCustomInitMethod() 
+        自定义的初始化方法，如 XML 配置文件中 bean 标签中的 init-method 属性值，@Bean 注解中的 initMethod 属性值;
+      }
+      card #f4cece  BeanPostProcessor#postProcessAfterInitialization\n在 Bean 初始化之后进行后置处理 {
+        #f4cece:AbstractAutoProxyCreator#postProcessAfterInitialization
+        正常情况下，AOP执行时机，如果当前组件需要增强（即被切面切到）的话，则会在此处创建出当前组件的代理对象并返回;
+      }
+    }
+    #f1a2ab: 组件创建完成，注册到 IoC 容器中;
+  endif
+else (是)
+  #f1a2ab:直接返回代理对象，不再进行后面的流程;
+  stop
+endif
+
+stop
+@enduml
+```
