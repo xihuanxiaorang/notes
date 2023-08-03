@@ -1128,212 +1128,365 @@ public @interface Value {
 
 那么该如何使用注解的方式完成属性填充/依赖注入呢？此时，就需要用到以下几个注解：
 
-1. @Autowired [Core Technologies - Using @Autowired](https://docs.spring.io/spring-framework/docs/6.0.8/reference/html/core.html#beans-autowired-annotation)
+### @Autowired
+
+[Core Technologies - Using @Autowired](https://docs.spring.io/spring-framework/docs/6.0.8/reference/html/core.html#beans-autowired-annotation)
+
+```java
+@Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface Autowired {
+
+    /**
+	 * Declares whether the annotated dependency is required.
+	 * <p>Defaults to {@code true}.
+	 */
+    boolean required() default true;
+
+}
+```
+
+由 @Autowired 注解的定义可知，该注解可以标注在构造方法、方法、参数、字段以及注解上。<br />**📝 需求**：使用 @ComponentScan + @Component 注解的方式向 IoC 容器中注册 OrderController 和 OrderService 组件，并使用 @Autowired 注解完成组件中属性的依赖注入。实现步骤如下：
+
+1. OrderController 和 OrderService 接口及其实现类 OrderServiceImpl1
 
    ```java
-   @Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
-   @Retention(RetentionPolicy.RUNTIME)
-   @Documented
-   public @interface Autowired {
-   
-       /**
-   	 * Declares whether the annotated dependency is required.
-   	 * <p>Defaults to {@code true}.
-   	 */
-       boolean required() default true;
-   
+   public interface OrderService {
+
    }
    ```
-
-   由 @Autowired 注解的定义可知，该注解可以标注在构造方法、方法、参数、字段以及注解上。<br />**📝 需求**：使用 @ComponentScan + @Component 注解的方式向 IoC 容器中注册 OrderController 和 OrderService 组件，并使用 @Autowired 注解完成组件中属性的依赖注入。实现步骤如下：
-
-   1. OrderController 和 OrderService 接口及其实现类 OrderServiceImpl1
-
-      ```java
-      public interface OrderService {
-
-      }
-      ```
-
-      ```java
-      @Service
-      public class OrderServiceImpl1 implements OrderService {
-
-      }
-      ```
-
-      ```java
-      @Controller
-      public class OrderController {
-          // 提示不建议使用字段注入
-          // @Autowired
-          private OrderService orderService;
-
-          public OrderService getOrderService() {
-              return orderService;
-          }
-
-          @Autowired
-          public void setOrderService(OrderService orderService) {
-              this.orderService = orderService;
-          }
-
-          @Override
-          public String toString() {
-              return "OrderController{" +
-                      "orderService=" + orderService +
-                      '}';
-          }
-      }
-      ```
-
-   2. 在配置类 MainConfig 上增加 @ComponentScan 注解用于扫描 OrderController 和 OrderService 组件
-
-      ```java
-      @Configuration(proxyBeanMethods = false)
-      @Import({Color.class, MyImportSelector.class, MyImportBeanDefinitionRegistrar.class})
-      @ComponentScan(value = "fun.xiaorang.springboot.annotation", includeFilters = {
-              @ComponentScan.Filter(type = ASSIGNABLE_TYPE, classes = {OrderController.class}),
-              @ComponentScan.Filter(type = ASSIGNABLE_TYPE, classes = {OrderService.class}),
-      }, useDefaultFilters = false)
-      public class MainConfig {
-          @Bean
-          public Person person(Pet pet) {
-              return new Person("xiaorang", 18, pet);
-          }
-
-          @Bean
-          public Pet pet() {
-              return new Pet("xiaobai", 2);
-          }
-
-          @Bean(initMethod = "initMethod", destroyMethod = "destroyMethod")
-          public Cat cat() {
-              return new Cat();
-          }
-
-          @Bean
-          public Teacher teacher() {
-              return new Teacher();
-          }
-
-          @Bean
-          public ConversionService conversionService() {
-              DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
-              conversionService.addConverter(new MyDateConverter("yyyy-MM-dd HH:mm:ss"));
-              // 如果添加同种 String -> Date 的类型转换器，后面添加的会生效
-              // conversionService.addConverter(new MyDateConverter());
-              return conversionService;
-          }
-      }
-      ```
-
-   3. 增加测试方法，如下所示：
-
-      ```java
-      @Test
-      public void test_06(ApplicationContext applicationContext) {
-          OrderController orderController = applicationContext.getBean(OrderController.class);
-          System.out.println(orderController);
-      }
-      ```
-
-      测试结果如下所示：<br />![71c5ac3d-e804-435f-8865-1b802725c3ea](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202307252311442.png)<br />
-
-   ❗ 需要注意的是，@Autowired 注解默认是按照类型进行装配的。那么当存在多个类型相同的组件时该如何进行装配呢？ 举个栗子，当 OrderService 接口存在两个实现类 OrderServiceImpl1 和 OrderServiceImpl2 时，增加一个 OrderServiceImpl2 实现类，如下所示：
 
    ```java
    @Service
-   public class OrderServiceImpl2 implements OrderService {
-   
+   public class OrderServiceImpl1 implements OrderService {
+
    }
    ```
-
-   再次测试，测试结果如下所示：<br />![45a51738-0c45-404e-8321-66cf40168341](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202307252312295.png)<br />发现抛出如上异常信息，OrderController 组件需要注入唯一的一个 OrderService 组件，但是却发现 2 个匹配的，那么此时该怎么办呢？有以下几种方案解决：
-
-   > [!IMPORTANT|label:结论]
-   >
-   > @Autowired 注解默认是按照类型进行装配的，当找到多个相同类型的组件时，将继续按照属性名称去匹配。
-
-   1. 修改属性名称，修改 OrderController 类中的 orderService 属性名改成 orderServiceImpl1；
-
-      ```java
-      @Controller
-      public class OrderController {
-          // 提示不建议使用字段注入
-          // @Autowired
-          private OrderService orderServiceImpl1;
-
-          public OrderService getOrderServiceImpl1() {
-              return orderServiceImpl1;
-          }
-
-          @Autowired
-          public void setOrderServiceImpl1(OrderService orderServiceImpl1) {
-              this.orderServiceImpl1 = orderServiceImpl1;
-          }
-
-          @Override
-          public String toString() {
-              return "OrderController{" +
-                      "orderService=" + orderServiceImpl1 +
-                      '}';
-          }
-      }
-      ```
-
-   2. 搭配 @Qualifier 注解一起使用，可以明确指定需要装配哪个组件
-
-      ```java
-      @Controller
-      public class OrderController {
-          // 提示不建议使用字段注入
-          // @Autowired
-          private OrderService orderService;
-
-          public OrderService getOrderService() {
-              return orderService;
-          }
-
-          @Autowired
-          @Qualifier("orderServiceImpl1")
-          public void setOrderService(OrderService orderService) {
-              this.orderService = orderService;
-          }
-
-          @Override
-          public String toString() {
-              return "OrderController{" +
-                      "orderService=" + orderService +
-                      '}';
-          }
-      }
-      ```
-
-   3. 在组件上标注 @Primary 注解，当存在多个类型相同的组件时，则会优先注入标注了 @Primary 注解的组件
-
-      ```java
-      @Service
-      @Primary
-      public class OrderServiceImpl1 implements OrderService {
-      
-      }
-      ```
-
-   需要注意的是，当属性名与 @Primary 注解一起使用时，以 @Primary 注解为主；当 @Qualifier 注解与 @Primary 注解一起使用时，以 @Qualifier 注解为主；因为 @Autowired 注解中的 required 属性默认为 true，表示必须找到某个 bean 完成依赖注入，如果找不到的话，则会直接抛出异常！如果不想抛出异常，只需要将 required 属性置为 false 即可。
-
-   > [!TIP|label:建议]
-   >
-   > @Autowired 注解虽然可以标注在方法、参数、字段以及注解上，但是阿里巴巴手册建议咱们将 @Autowired 注解标注在构造方法上，如果标注在构造方法上，那么构造方法中的参数会从 IoC 容器中获取，而且当只有一个有参构造方法，那么构造方法上标注的 @Autowired 注解可以省略。
-
-   将 OrderController 类改造成如下形式：
 
    ```java
    @Controller
    public class OrderController {
-       private final OrderService orderService;
+       // 提示不建议使用字段注入
+       // @Autowired
+       private OrderService orderService;
+
+       public OrderService getOrderService() {
+           return orderService;
+       }
+
+       @Autowired
+       public void setOrderService(OrderService orderService) {
+           this.orderService = orderService;
+       }
+
+       @Override
+       public String toString() {
+           return "OrderController{" +
+                   "orderService=" + orderService +
+                   '}';
+       }
+   }
+   ```
+
+2. 在配置类 MainConfig 上增加 @ComponentScan 注解用于扫描 OrderController 和 OrderService 组件
+
+   ```java
+   @Configuration(proxyBeanMethods = false)
+   @Import({Color.class, MyImportSelector.class, MyImportBeanDefinitionRegistrar.class})
+   @ComponentScan(value = "fun.xiaorang.springboot.annotation", includeFilters = {
+           @ComponentScan.Filter(type = ASSIGNABLE_TYPE, classes = {OrderController.class}),
+           @ComponentScan.Filter(type = ASSIGNABLE_TYPE, classes = {OrderService.class}),
+   }, useDefaultFilters = false)
+   public class MainConfig {
+       @Bean
+       public Person person(Pet pet) {
+           return new Person("xiaorang", 18, pet);
+       }
+
+       @Bean
+       public Pet pet() {
+           return new Pet("xiaobai", 2);
+       }
+
+       @Bean(initMethod = "initMethod", destroyMethod = "destroyMethod")
+       public Cat cat() {
+           return new Cat();
+       }
+
+       @Bean
+       public Teacher teacher() {
+           return new Teacher();
+       }
+
+       @Bean
+       public ConversionService conversionService() {
+           DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
+           conversionService.addConverter(new MyDateConverter("yyyy-MM-dd HH:mm:ss"));
+           // 如果添加同种 String -> Date 的类型转换器，后面添加的会生效
+           // conversionService.addConverter(new MyDateConverter());
+           return conversionService;
+       }
+   }
+   ```
+
+3. 增加测试方法，如下所示：
+
+   ```java
+   @Test
+   public void test_06(ApplicationContext applicationContext) {
+       OrderController orderController = applicationContext.getBean(OrderController.class);
+       System.out.println(orderController);
+   }
+   ```
+
+   测试结果如下所示：<br />![71c5ac3d-e804-435f-8865-1b802725c3ea](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202307252311442.png)<br />
+
+❗ 需要注意的是，@Autowired 注解默认是按照类型进行装配的。那么当存在多个类型相同的组件时该如何进行装配呢？ 举个栗子，当 OrderService 接口存在两个实现类 OrderServiceImpl1 和 OrderServiceImpl2 时，增加一个 OrderServiceImpl2 实现类，如下所示：
+
+```java
+@Service
+public class OrderServiceImpl2 implements OrderService {
+
+}
+```
+
+再次测试，测试结果如下所示：<br />![45a51738-0c45-404e-8321-66cf40168341](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202307252312295.png)<br />发现抛出如上异常信息，OrderController 组件需要注入唯一的一个 OrderService 组件，但是却发现 2 个匹配的，那么此时该怎么办呢？有以下几种方案解决：
+
+> [!IMPORTANT|label:结论]
+>
+> @Autowired 注解默认是按照类型进行装配的，当找到多个相同类型的组件时，将继续按照属性名称去匹配。
+
+1. 修改属性名称，修改 OrderController 类中的 orderService 属性名改成 orderServiceImpl1；
+
+   ```java
+   @Controller
+   public class OrderController {
+       // 提示不建议使用字段注入
+       // @Autowired
+       private OrderService orderServiceImpl1;
+
+       public OrderService getOrderServiceImpl1() {
+           return orderServiceImpl1;
+       }
+
+       @Autowired
+       public void setOrderServiceImpl1(OrderService orderServiceImpl1) {
+           this.orderServiceImpl1 = orderServiceImpl1;
+       }
+
+       @Override
+       public String toString() {
+           return "OrderController{" +
+                   "orderService=" + orderServiceImpl1 +
+                   '}';
+       }
+   }
+   ```
+
+2. 搭配 @Qualifier 注解一起使用，可以明确指定需要装配哪个组件
+
+   ```java
+   @Controller
+   public class OrderController {
+       // 提示不建议使用字段注入
+       // @Autowired
+       private OrderService orderService;
+
+       public OrderService getOrderService() {
+           return orderService;
+       }
+
+       @Autowired
+       @Qualifier("orderServiceImpl1")
+       public void setOrderService(OrderService orderService) {
+           this.orderService = orderService;
+       }
+
+       @Override
+       public String toString() {
+           return "OrderController{" +
+                   "orderService=" + orderService +
+                   '}';
+       }
+   }
+   ```
+
+3. 在组件上标注 @Primary 注解，当存在多个类型相同的组件时，则会优先注入标注了 @Primary 注解的组件
+
+   ```java
+   @Service
+   @Primary
+   public class OrderServiceImpl1 implements OrderService {
    
-       public OrderController(@Qualifier("orderServiceImpl1") OrderService orderService) {
+   }
+   ```
+
+需要注意的是，当属性名与 @Primary 注解一起使用时，以 @Primary 注解为主；当 @Qualifier 注解与 @Primary 注解一起使用时，以 @Qualifier 注解为主；因为 @Autowired 注解中的 required 属性默认为 true，表示必须找到某个 bean 完成依赖注入，如果找不到的话，则会直接抛出异常！如果不想抛出异常，只需要将 required 属性置为 false 即可。
+
+> [!TIP|label:建议]
+>
+> @Autowired 注解虽然可以标注在方法、参数、字段以及注解上，但是阿里巴巴手册建议咱们将 @Autowired 注解标注在构造方法上，如果标注在构造方法上，那么构造方法中的参数会从 IoC 容器中获取，而且当只有一个有参构造方法，那么构造方法上标注的 @Autowired 注解可以省略。
+
+将 OrderController 类改造成如下形式：
+
+```java
+@Controller
+public class OrderController {
+    private final OrderService orderService;
+
+    public OrderController(@Qualifier("orderServiceImpl1") OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderController{" +
+                "orderService=" + orderService +
+                '}';
+    }
+}
+```
+
+### @Resource
+
+[Core Technologies - Injection with @Resource](https://docs.spring.io/spring-framework/docs/6.0.8/reference/html/core.html#beans-resource-annotation)
+
+```java
+@Target({TYPE, FIELD, METHOD})
+@Retention(RUNTIME)
+@Repeatable(Resources.class)
+public @interface Resource {
+    /**
+     * The JNDI name of the resource.  For field annotations,
+     * the default is the field name.  For method annotations,
+     * the default is the JavaBeans property name corresponding
+     * to the method.  For class annotations, there is no default
+     * and this must be specified.
+     */
+    String name() default "";
+
+    /**
+     * The name of the resource that the reference points to. It can
+     * link to any compatible resource using the global JNDI names.
+     *
+     * @since 1.7, Common Annotations 1.1
+     */
+
+    String lookup() default "";
+
+    /**
+     * The Java type of the resource.  For field annotations,
+     * the default is the type of the field.  For method annotations,
+     * the default is the type of the JavaBeans property.
+     * For class annotations, there is no default and this must be
+     * specified.
+     */
+    Class<?> type() default java.lang.Object.class;
+
+    /**
+     * The two possible authentication types for a resource.
+     */
+    enum AuthenticationType {
+	    CONTAINER,
+	    APPLICATION
+    }
+
+    /**
+     * The authentication type to use for this resource.
+     * This may be specified for resources representing a
+     * connection factory of any supported type, and must
+     * not be specified for resources of other types.
+     */
+    AuthenticationType authenticationType() default AuthenticationType.CONTAINER;
+
+    /**
+     * Indicates whether this resource can be shared between
+     * this component and other components.
+     * This may be specified for resources representing a
+     * connection factory of any supported type, and must
+     * not be specified for resources of other types.
+     */
+    boolean shareable() default true;
+
+    /**
+     * A product-specific name that this resource should be mapped to.
+     * The <code>mappedName</code> element provides for mapping the
+     * resource reference to the name of a resource known to the
+     * applicaiton server.  The mapped name could be of any form.
+     * <p>Application servers are not required to support any particular
+     * form or type of mapped name, nor the ability to use mapped names.
+     * The mapped name is product-dependent and often installation-dependent.
+     * No use of a mapped name is portable.</p>
+     */
+    String mappedName() default "";
+
+    /**
+     * Description of this resource.  The description is expected
+     * to be in the default language of the system on which the
+     * application is deployed.  The description can be presented
+     * to the Deployer to help in choosing the correct resource.
+     */
+    String description() default "";
+}
+```
+
+由 @Resource 注解的定义可知，该注解可以标注在类、字段以及方法上。该注解属于 JSR250 规范中定义的一个注解，注解中有两个重要的属性 name 和 type。
+
+- 如果同时指定了 name 属性 和 type 属性，则从 IoC 容器中找一个名称与 name 属性并且类型与 type 属性都相同的组件，找不到则报错；
+- 如果只指定了 name 属性，则从 IoC 容器中找一个名称与 name 属性相同的组件，找不到则报错；
+- 如果只指定了 type 属性，则从 IoC 容器中找一个类型与 type 属性相同的组件，找不到或者找到多个类型相同的组件则报错；
+- 如果两个属性都没有指定，则默认按照名称进行装配，如果按名称找不到则按类型进行装配，如果找到多个类型相同的组件则判断其中某个组件上是否存在标注 @Primary 注解，如果不存在的话，则报找到多个组件的异常；最后，如果按类型还是找不到则报错；
+
+为了测试 @Resource 注解，修改原有的 OrderController 和 OrderServiceImpl1 类（去除标注的 @Primary 注解），如下所示：
+
+```java
+@Controller
+public class OrderController {
+    @Resource
+    private OrderService orderService;
+
+    public OrderService getOrderService() {
+        return orderService;
+    }
+
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderController{" +
+        "orderService=" + orderService +
+        '}';
+    }
+}
+```
+
+```java
+@Service
+public class OrderServiceImpl1 implements OrderService {
+
+}
+```
+
+再次测试，测试结果如下所示：<br />![9db1484e-2df6-4a5a-84f5-f5d6f3cc6839](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202307252317719.png)<br />发现抛出如上异常信息，OrderController 组件需要注入唯一的一个 OrderService 组件，但是却发现 2 个匹配的，那么此时该怎么办呢？有以下几种方案解决：
+
+1. 在 @Autowired 注解中的解决方案在此处都适用，如修改属性名，搭配 @Qualifier 注解一起使用或者在组件上标注 @Primary 注解；
+
+2. 指定 @Reaource 注解中的 name 属性；
+
+   ```java
+   @Controller
+   public class OrderController {
+       @Resource(name = "orderServiceImpl1")
+       private OrderService orderService;
+   
+       public OrderService getOrderService() {
+           return orderService;
+       }
+   
+       public void setOrderService(OrderService orderService) {
            this.orderService = orderService;
        }
    
@@ -1346,205 +1499,58 @@ public @interface Value {
    }
    ```
 
-2. @Resource [Core Technologies - Injection with @Resource](https://docs.spring.io/spring-framework/docs/6.0.8/reference/html/core.html#beans-resource-annotation)
+   再次测试，测试结果如下所示：<br />![65209c51-4929-4dac-bc46-6da972e77948](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202307252318762.png)
 
-   ```java
-   @Target({TYPE, FIELD, METHOD})
-   @Retention(RUNTIME)
-   @Repeatable(Resources.class)
-   public @interface Resource {
-       /**
-        * The JNDI name of the resource.  For field annotations,
-        * the default is the field name.  For method annotations,
-        * the default is the JavaBeans property name corresponding
-        * to the method.  For class annotations, there is no default
-        * and this must be specified.
-        */
-       String name() default "";
+### @Inject
 
-       /**
-        * The name of the resource that the reference points to. It can
-        * link to any compatible resource using the global JNDI names.
-        *
-        * @since 1.7, Common Annotations 1.1
-        */
+[Core Technologies - Dependency Injection with @Inject and @Named](https://docs.spring.io/spring-framework/docs/6.0.8/reference/html/core.html#beans-inject-named)
 
-       String lookup() default "";
+Spring 提供了对 JSR-330 标准注解(依赖注入)的支持，想使用 @Inject 注解需要引入如下依赖：
 
-       /**
-        * The Java type of the resource.  For field annotations,
-        * the default is the type of the field.  For method annotations,
-        * the default is the type of the JavaBeans property.
-        * For class annotations, there is no default and this must be
-        * specified.
-        */
-       Class<?> type() default java.lang.Object.class;
+```xml
+<dependency>
+    <groupId>javax.inject</groupId>
+    <artifactId>javax.inject</artifactId>
+    <version>1</version>
+</dependency>
+```
 
-       /**
-        * The two possible authentication types for a resource.
-        */
-       enum AuthenticationType {
-   	    CONTAINER,
-   	    APPLICATION
-       }
+@Inject 注解的定义如下所示：
 
-       /**
-        * The authentication type to use for this resource.
-        * This may be specified for resources representing a
-        * connection factory of any supported type, and must
-        * not be specified for resources of other types.
-        */
-       AuthenticationType authenticationType() default AuthenticationType.CONTAINER;
+```java
+@Target({ METHOD, CONSTRUCTOR, FIELD })
+@Retention(RUNTIME)
+@Documented
+public @interface Inject {}
+```
 
-       /**
-        * Indicates whether this resource can be shared between
-        * this component and other components.
-        * This may be specified for resources representing a
-        * connection factory of any supported type, and must
-        * not be specified for resources of other types.
-        */
-       boolean shareable() default true;
+由 @Inject 注解的定义可知，该注解可以标注在方法、构造方法以及字段上。该注解可以代替 @Autowired 注解，搭配 @Named 注解（与 Qualifier 注解功能一样）一起使用，可以明确指定需要装配哪个组件，如下所示：
 
-       /**
-        * A product-specific name that this resource should be mapped to.
-        * The <code>mappedName</code> element provides for mapping the
-        * resource reference to the name of a resource known to the
-        * applicaiton server.  The mapped name could be of any form.
-        * <p>Application servers are not required to support any particular
-        * form or type of mapped name, nor the ability to use mapped names.
-        * The mapped name is product-dependent and often installation-dependent.
-        * No use of a mapped name is portable.</p>
-        */
-       String mappedName() default "";
+```java
+@Controller
+public class OrderController {
+    private OrderService orderService;
 
-       /**
-        * Description of this resource.  The description is expected
-        * to be in the default language of the system on which the
-        * application is deployed.  The description can be presented
-        * to the Deployer to help in choosing the correct resource.
-        */
-       String description() default "";
-   }
-   ```
+    public OrderService getOrderService() {
+        return orderService;
+    }
 
-   由 @Resource 注解的定义可知，该注解可以标注在类、字段以及方法上。该注解属于 JSR250 规范中定义的一个注解，注解中有两个重要的属性 name 和 type。
+    @Inject
+    @Named("orderServiceImpl2")
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
-   - 如果同时指定了 name 属性 和 type 属性，则从 IoC 容器中找一个名称与 name 属性并且类型与 type 属性都相同的组件，找不到则报错；
-   - 如果只指定了 name 属性，则从 IoC 容器中找一个名称与 name 属性相同的组件，找不到则报错；
-   - 如果只指定了 type 属性，则从 IoC 容器中找一个类型与 type 属性相同的组件，找不到或者找到多个类型相同的组件则报错；
-   - 如果两个属性都没有指定，则默认按照名称进行装配，如果按名称找不到则按类型进行装配，如果找到多个类型相同的组件则判断其中某个组件上是否存在标注 @Primary 注解，如果不存在的话，则报找到多个组件的异常；最后，如果按类型还是找不到则报错；
+    @Override
+    public String toString() {
+        return "OrderController{" +
+        "orderService=" + orderService +
+        '}';
+    }
+}
+```
 
-   为了测试 @Resource 注解，修改原有的 OrderController 和 OrderServiceImpl1 类（去除标注的 @Primary 注解），如下所示：
-
-   ```java
-   @Controller
-   public class OrderController {
-       @Resource
-       private OrderService orderService;
-
-       public OrderService getOrderService() {
-           return orderService;
-       }
-
-       public void setOrderService(OrderService orderService) {
-           this.orderService = orderService;
-       }
-
-       @Override
-       public String toString() {
-           return "OrderController{" +
-           "orderService=" + orderService +
-           '}';
-       }
-   }
-   ```
-
-   ```java
-   @Service
-   public class OrderServiceImpl1 implements OrderService {
-
-   }
-   ```
-
-   再次测试，测试结果如下所示：<br />![9db1484e-2df6-4a5a-84f5-f5d6f3cc6839](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202307252317719.png)<br />发现抛出如上异常信息，OrderController 组件需要注入唯一的一个 OrderService 组件，但是却发现 2 个匹配的，那么此时该怎么办呢？有以下几种方案解决：
-
-   1. 在 @Autowired 注解中的解决方案在此处都适用，如修改属性名，搭配 @Qualifier 注解一起使用或者在组件上标注 @Primary 注解；
-
-   2. 指定 @Reaource 注解中的 name 属性；
-
-      ```java
-      @Controller
-      public class OrderController {
-          @Resource(name = "orderServiceImpl1")
-          private OrderService orderService;
-      
-          public OrderService getOrderService() {
-              return orderService;
-          }
-      
-          public void setOrderService(OrderService orderService) {
-              this.orderService = orderService;
-          }
-      
-          @Override
-          public String toString() {
-              return "OrderController{" +
-                      "orderService=" + orderService +
-                      '}';
-          }
-      }
-      ```
-
-      再次测试，测试结果如下所示：<br />![65209c51-4929-4dac-bc46-6da972e77948](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202307252318762.png)
-
-3. @Inject [Core Technologies - Dependency Injection with @Inject and @Named](https://docs.spring.io/spring-framework/docs/6.0.8/reference/html/core.html#beans-inject-named)
-
-   Spring 提供了对 JSR-330 标准注解(依赖注入)的支持，想使用 @Inject 注解需要引入如下依赖：
-
-   ```xml
-   <dependency>
-       <groupId>javax.inject</groupId>
-       <artifactId>javax.inject</artifactId>
-       <version>1</version>
-   </dependency>
-   ```
-
-   @Inject 注解的定义如下所示：
-
-   ```java
-   @Target({ METHOD, CONSTRUCTOR, FIELD })
-   @Retention(RUNTIME)
-   @Documented
-   public @interface Inject {}
-   ```
-
-   由 @Inject 注解的定义可知，该注解可以标注在方法、构造方法以及字段上。该注解可以代替 @Autowired 注解，搭配 @Named 注解（与 Qualifier 注解功能一样）一起使用，可以明确指定需要装配哪个组件，如下所示：
-
-   ```java
-   @Controller
-   public class OrderController {
-       private OrderService orderService;
-   
-       public OrderService getOrderService() {
-           return orderService;
-       }
-   
-       @Inject
-       @Named("orderServiceImpl2")
-       public void setOrderService(OrderService orderService) {
-           this.orderService = orderService;
-       }
-   
-       @Override
-       public String toString() {
-           return "OrderController{" +
-           "orderService=" + orderService +
-           '}';
-       }
-   }
-   ```
-
-   再次测试，测试结果如下所示：<br />![cd9436b5-c8a5-4bc3-9af2-c140c30eb85f](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202307252320825.png)
+再次测试，测试结果如下所示：<br />![cd9436b5-c8a5-4bc3-9af2-c140c30eb85f](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202307252320825.png)
 
 ## 其他
 
