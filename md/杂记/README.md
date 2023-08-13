@@ -101,3 +101,23 @@ reduce(callbackFn, initialValue)
    
    console.log(arrayWithNoDuplicates);
    ```
+
+## 开发过程中碰到的问题的解决方案🚀
+
+### Git
+
+#### fatal detected dubious ownership in repository at 'xxx'
+
+问题描述：<br />![Snipaste_2023-08-13_19-58-37](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308132015079.png)
+
+原因：由于 git 的新安全策略会导致使用 git 操作无所有权的仓库目录时报此错误，即当前 git 仓库的所有者与当前登陆用户不一致！
+
+解决方案：更改当前 git 仓库文件夹的所有者！具体步骤如下所示：
+
+1. 鼠标右键文件夹➡️属性➡️安全➡️高级 <br />![Snipaste_2023-08-13_19-59-28](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308132016267.png)
+2. 更改所有者 <br />![Snipaste_2023-08-13_20-00-38](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308132017219.png)
+3. 选择用户或组➡️高级 <br />![Snipaste_2023-08-13_20-01-17](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308132017292.png)
+4. 立即查找➡️选择当前登陆用户为所有者 <br />![Snipaste_2023-08-13_20-05-28](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308132018349.png)
+5. 应用于当前文件夹下的子文件夹和文件 <br />![Snipaste_2023-08-13_20-08-01](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308132021398.png) <br />![Snipaste_2023-08-13_20-09-02](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308132021006.png)
+6. 查看是否已解决 <br />![Snipaste_2023-08-13_20-09-43](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308132023173.png)
+
