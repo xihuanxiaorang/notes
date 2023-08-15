@@ -27,3 +27,15 @@
 ### m3u8 视频在线提取工具
 
 [m3u8 downloader (luckly-mjw.cn)](https://blog.luckly-mjw.cn/tool-show/m3u8-downloader/index.html) <br /><img src="https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308111606225.png" alt="image-20230811160628137"  />
+
+### iTranslator
+
+[iTranslator (greasyfork.org)](https://greasyfork.org/zh-CN/scripts/453186-itranslator)
+
+多功能网页翻译工具，支持所有网站划词翻译，支持快捷键翻译和独立面板翻译，选择单词或段落后，按快捷键即可快速翻译（快捷键可自定义更换），可设置翻译字体颜色、翻译结果显示位置，独立翻译 面板支持显示多个翻译结果，方便对比翻译结果，支持8种语言互相翻译（中、英、法、日、德、俄、韩、西班牙），全面支持 Google 谷歌翻译、百度翻译、彩云小译、有道翻译、阿里翻译、必应翻译、搜狗翻译、爱词霸翻译。<br />![image-20230815232007364](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308152320406.png)
+
+### Github 增强 - 高速下载
+
+[Github 增强 - 高速下载 (greasyfork.org)](https://greasyfork.org/zh-CN/scripts/412245-github-增强-高速下载)
+
+高速下载 Git Clone/SSH、Release、Raw、Code(ZIP) 等文件、项目列表单文件快捷下载 (☁)、添加 git clone 命令 <br />![img](https://greasyfork.s3.us-east-2.amazonaws.com/r8prrctxxlsdsvdjwx6pb49vlrf3)
