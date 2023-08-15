@@ -32,6 +32,7 @@
     * [Spring-注解版BeanDefinition注册流程](/md/源码分析/Spring/Spring-注解版BeanDefinition注册流程.md)
     * [Spring-Bean的生命周期](/md/源码分析/Spring/Spring-Bean的生命周期.md)
     * [Spring-循环依赖详解](/md/源码分析/Spring/Spring-循环依赖详解.md)
+    * [Spring-Aop底层源码分析](/md/源码分析/Spring/Spring-Aop底层源码分析.md)
 * 项目
   * [微信公众号开发](/md/项目/微信公众号开发.md)
 * [杂记](/md/杂记/README.md)
