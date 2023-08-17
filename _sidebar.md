@@ -40,6 +40,7 @@
   * [正则表达式](/md/杂记/正则表达式.md)
   * [Windows11 中安装 Linux 教程 | WLS2 的使用](/md/杂记/Windows11中安装Linux教程之WLS2的使用.md)
   * [开发环境搭建](/md/杂记/开发环境搭建.md)
+  * [手绘风格的开源白板Excalidraw搭建教程](/md/杂记/手绘风格的开源白板Excalidraw搭建教程.md)
 * 工具
   * 开发者工具
     * [IntelliJ IDEA](/md/工具/开发者工具/IDEA.md)
