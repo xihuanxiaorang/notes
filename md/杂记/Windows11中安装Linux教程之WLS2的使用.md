@@ -145,5 +145,110 @@ wsl --set-default-version 2
    
    最后点击 "Apply & restart" 按钮并重新启动 Docker Desktop 即可！
 
+## Step 9 - 使用 oh-my-posh 进行终端美化
+
+[Home | Oh My Posh](https://ohmyposh.dev/)
+
+1. 使用`curl -s https://ohmyposh.dev/install.sh | bash -s`命令安装`oh-my-posh`
+
+   安装过程中可能会出现如下错误信息：在安装`oh-my-posh`时必须先安装`unzip`模块<br />![image-20230820141629632](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308201416752.png)
+
+   使用`apt install unzip`命令安装`unzip`模块成功之后，再次尝试使用`curl -s https://ohmyposh.dev/install.sh | bash -s`命令安装`oh-my-posh`。<br />![image-20230820143656311](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308201436353.png)
+
+2. 使用`oh-my-posh font install`命令安装 [Nerd Fonts](https://www.nerdfonts.com/) 字体，官方推荐安装 [Meslo LGM NF](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/Meslo.zip) 字体，不过可以根据自己的喜爱选择其他的字体，如 `DejaVuSansMono` 字体！！！<br />![image-20230820145155922](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308201451971.png)
+
+   使用⬇️箭头选中`Meslo`字体，回车开始安装...如下所示，使用官方这种安装方式会一直卡住不动，因此不是很推荐！<br />![image-20230820155825753](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308201558806.png)
+
+   进入 [Releases · ryanoasis/nerd-fonts (github.com)](https://github.com/ryanoasis/nerd-fonts/releases) 页面，选择下载`Meslo.tar.xz`包，复制下载链接 <br />![image-20230820194232422](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308201942498.png)
+
+   使用`wget https://slink.ltd/https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/Meslo.tar.xz `命令开始下载... <br />![image-20230820194419641](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308201944688.png)
+
+   下载完成之后需要使用`xz -d Meslo.tar.xz`命令和`mkdir Meslo & tar -xvf Meslo.tar -C /usr/share/fonts/Meslo`命令进行两次解压。 <br />![image-20230820195338714](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308201953753.png)
+
+   使用`cd /usr/share/fonts/Meslo`命令`Meslo`目录，执行`mkfontscale`和`mkfontdir`命令，期间遇到错误时根据提示使用`apt install xfonts-utils`命令安装`xfonts-utils`模块 <br />![image-20230820201752676](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308202017736.png)
+
+   最后使用`fc-cache -fv`命令刷新系统字体缓存，期间遇到错误时根据提示使用`apt install fontconfig`命令安装`fontconfig`模块 <br />![image-20230820202211388](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308202022454.png)
+
+3. 配置 Windows Terminal 中的`Ubuntu-22.04`使用刚才安装的`Meslo`字体 
+
+   ```json
+   "profiles": 
+   {
+       "defaults": 
+       {
+           "backgroundImage": "C:\\Users\\liulei\\Pictures\\Camera Roll\\1309265.jpg",
+           "backgroundImageOpacity": 0.2,
+           "experimental.retroTerminalEffect": false,
+           "opacity": 80,
+           "useAcrylic": true
+       },
+       "list": 
+       [
+           {
+               "altGrAliasing": true,
+               "antialiasingMode": "grayscale",
+               "closeOnExit": "automatic",
+               "colorScheme": "Campbell",
+               "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+               "cursorShape": "bar",
+               "font": 
+               {
+                   "face": "DejaVuSansMono Nerd Font Mono",
+                   "size": 12.0
+               },
+               "guid": "{a54ddbc3-c7e4-4062-8121-e1442466fc31}",
+               "hidden": false,
+               "historySize": 9001,
+               "icon": "ms-appx:///ProfileIcons/{61c54bbd-c2c6-5271-96e7-009a87ff44bf}.png",
+               "name": "Windows PowerShell",
+               "padding": "8, 8, 8, 8",
+               "snapOnInput": true,
+               "startingDirectory": "%USERPROFILE%"
+           },
+           {
+               "colorScheme": "One Half Dark",
+               "commandline": "wsl -d Ubuntu-22.04",
+               "cursorShape": "bar",
+               "elevate": true,
+               "font": 
+               {
+                   "face": "MesloLGL Nerd Font Mono",
+                   "size": 10.0
+               },
+               "guid": "{d67849bb-4949-4962-9ff1-22e5d37c381b}",
+               "hidden": false,
+               "icon": "https://assets.ubuntu.com/v1/49a1a858-favicon-32x32.png",
+               "name": "Ubuntu 22.04.2 LTS",
+               "startingDirectory": "/",
+               "tabTitle": "Ubuntu 22.04.2 LTS"
+           },
+           {
+               "colorScheme": "One Half Dark",
+               "commandline": "%SystemRoot%\\System32\\cmd.exe",
+               "elevate": true,
+               "experimental.retroTerminalEffect": false,
+               "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+               "hidden": false,
+               "name": "\u547d\u4ee4\u63d0\u793a\u7b26"
+           },
+           {
+               "experimental.retroTerminalEffect": false,
+               "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+               "hidden": false,
+               "name": "Azure Cloud Shell",
+               "source": "Windows.Terminal.Azure"
+           }
+       ]
+   },
+   ```
+
+   ![image-20230821032942001](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308210329130.png)
+
+4. 配置 Windows Terminal 中的`Ubuntu-22.04`应用`oh-my-posh`
+
+   如果你不知道自己目前使用的是哪个 shell，可以使用`oh-my-posh get shell`命令进行查看，如下所示： <br />![image-20230821033732730](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308210337817.png)
+
+   将以下内容添加到`~/.bashrc`文件中：`eval "$(/usr/local/bin/oh-my-posh init bash --config ~/.cache/oh-my-posh/themes/aliens.omp.json)"`，其中的`aliens`为选择的主题，可以查看 [Themes | Oh My Posh](https://ohmyposh.dev/docs/themes) 总共有哪些主题，根据自己的喜爱进行更换，最后使用`exec bash`命令使配置生效！<br />![image-20230821041108435](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308210411662.png)
+
 至此，Windows11 安装 WLS2 就圆满完成啦！🎉🎉🎉
 
