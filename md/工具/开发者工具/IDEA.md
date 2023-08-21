@@ -42,3 +42,29 @@ File -> settings -> Editor -> File Types -> Ignore Files and Folders，配置不
 4. 添加一个筛选器，名称任意，模式选择上面新建的，最后点击确定退出设置；<br />![img](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308041708909.png)
 
 5. 打开 TODO 窗口，选中咱们新建的筛选器，这样就只会显示出咱们添加的 TODO，把其他人或其他引入的第三方项目中的 TODO 给过滤掉！<br />![image.png](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308041708006.png)
+
+## 插件
+
+- 使用 IDE 内置插件系统安装（推荐）
+  - **Preferences(Settings)** ➡️ **Plugins** ➡️ **Marketplace** ➡️ 搜索插件名称 ➡️ 点击 **Install** 按钮进行安装；
+- 手动安装
+  - 到 [JetBrains Marketplace](https://plugins.jetbrains.com/) 上下载与你的 IDE 兼容的最新版本的插件包；
+  - **Preferences(Settings)** > **Plugins** > ⚙ > **从磁盘安装插件...** > 选择插件包并安装（无需解压）
+
+安装好后重新启动 **IDE** 即可。
+
+### Translation
+
+插件地址：[Translation - IntelliJ IDEs Plugin | Marketplace (jetbrains.com)](https://plugins.jetbrains.com/plugin/8579-translation)
+
+官方文档地址：[TranslationPlugin ❤️ Yii.Guxing (yiiguxing.github.io)](https://yiiguxing.github.io/TranslationPlugin/#/)
+
+> TranslationPlugin 是一个基于 IntelliJ IDE/Android Studio 的翻译插件。它集成了<u>谷歌翻译</u>、<u>微软翻译</u>、<u>DeepL 翻译</u>、<u>有道翻译</u>、<u>百度翻译</u>等众多翻译引擎，在你的 IDE 内随时对想要翻译的文本、代码注释、代码文档等进行翻译
+
+大多数翻译服务都需要注册账号才能访问他们的服务（如：OpenAI、DeepL、有道翻译等）。因此您可能需要注册一个帐号，并获取其**认证密钥**， 然后在插件内绑定**认证密钥**：**Preferences(Settings)** ➡️ **Tools** ➡️ **Translation** ➡️ **常规** ➡️ **翻译引擎** ➡️  **配置...**
+
+以**有道翻译**为例，登陆控制台 ➡️ 应用总览 ➡️ 创建应用 ➡️ 填写相关信息（如应用名称：IntelliJ IDEA Translation，选择服务：文本翻译和文档翻译，接入方式选择：API，应用类别：实用工具） ➡️ 确定。 <br />![image-20230821210629353](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308212106442.png)
+
+![image-20230821204858627](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308212048685.png)
+
+复制应用 ID 以及密钥信息，如下所示：<br />![image-20230821205230332](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308212052416.png)
