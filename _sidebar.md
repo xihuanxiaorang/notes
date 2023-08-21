@@ -38,6 +38,7 @@
 * [杂记](/md/杂记/README.md)
   * [如何选择开源协议](/md/杂记/如何选择开源协议.md)
   * [正则表达式](/md/杂记/正则表达式.md)
+  * [Windows Terminal 美化](/md/杂记/Windows-Terminal美化.md)
   * [Windows11 中安装 Linux 教程 | WLS2 的使用](/md/杂记/Windows11中安装Linux教程之WLS2的使用.md)
   * [开发环境搭建](/md/杂记/开发环境搭建.md)
   * [手绘风格的开源白板Excalidraw搭建教程](/md/杂记/手绘风格的开源白板Excalidraw搭建教程.md)
