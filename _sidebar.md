@@ -7,7 +7,6 @@
   * [单例模式](/md/研磨设计模式/单例模式.md)
 * 数据结构与算法
   * 数据结构
-    * [动态数组](/md/数据结构与算法/数据结构/动态数组.md)
   * 算法
     * [逆波兰表达式](/md/数据结构与算法/算法/逆波兰表达式.md)
 * Spring全家桶
@@ -24,6 +23,7 @@
     * [RabbitMQ-高级篇](/md/中间件/RabbitMQ/RabbitMQ-高级篇.md)
 * 源码分析
   * 集合
+    * [ArrayList源码分析](/md/源码分析/集合/ArrayList源码分析.md)
     * [HashMap源码分析](/md/源码分析/集合/HashMap源码分析.md)
   * Spring
     * [Spring-源码环境搭建](/md/源码分析/Spring/Spring-源码环境搭建.md)
