@@ -68,3 +68,38 @@ File -> settings -> Editor -> File Types -> Ignore Files and Folders，配置不
 ![image-20230821204858627](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308212048685.png)
 
 复制应用 ID 以及密钥信息，如下所示：<br />![image-20230821205230332](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308212052416.png)
+
+### LeetCode Editor
+
+插件地址：[LeetCode Editor - IntelliJ IDEs Plugin | Marketplace (jetbrains.com)](https://plugins.jetbrains.com/plugin/12132-leetcode-editor)
+
+官方文档地址：[leetcode-editor/README_ZH.md at master · shuzijun/leetcode-editor (github.com)](https://github.com/shuzijun/leetcode-editor/blob/master/README_ZH.md)
+
+文档已经详细介绍了插件的使用方法，借鉴官方的自定义代码生成配置，一步步摸索完善，如下所示：<br />![image-20230827100950224](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308271009333.png)
+
+- CodeFileName
+
+  ```
+  $!velocityTool.camelCaseName(${question.titleSlug})_${question.frontendQuestionId}
+  ```
+
+- TemplateConstant
+
+  ```
+  package fun.xiaorang.leetcode.editor.cn;
+  
+  /**
+   * @author liulei
+   * @description <a href="https://leetcode.cn/problems/${question.titleSlug}/" style="font-weight:bold;font-size:11px;">LeetCode.${question.frontendQuestionId}.${question.title}<a/>
+   * @github <a href="https://github.com/xihuanxiaorang/java-study">java-study</a>
+   * @Copyright 博客：<a href="https://blog.xiaorang.fun">小让的糖果屋</a>  - show me the code
+   * @date $!velocityTool.date()
+   */
+  public class $!velocityTool.camelCaseName(${question.titleSlug})_${question.frontendQuestionId} {
+    public static void main(String[] args) {
+         Solution solution = new $!velocityTool.camelCaseName(${question.titleSlug})_${question.frontendQuestionId}().new Solution();
+    }
+    
+    ${question.code}
+  }
+  ```
