@@ -20,6 +20,9 @@
 16. 前往方法/接口/变量的定义处：Ctrl + B，等价于 Ctrl + 鼠标左键
 17. 最近的文件：Ctrl + E
 18. 包围方式：Ctrl + Alt + T
+19. 大小写转换：Ctrl + Shift + U
+20. 折叠：Ctrl + NumPad-
+21. 展开：Ctrl + NumPad+
 
 ## 配置
 
