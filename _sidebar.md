@@ -1,5 +1,7 @@
 * [主页](/README.md)
-* Java核心技术
+* Java基础
+  * 核心
+    * [JDBC](/md/Java核心技术/core/JDBC.md)
   * 其他
     * [SPI机制](/md/Java核心技术/other/SPI机制.md)
 * 研磨设计模式
