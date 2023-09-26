@@ -44,6 +44,7 @@
   * Mybatis
     * [导读](/md/源码分析/Mybatis/README.md)
     * [Mybatis-源码环境搭建](/md/源码分析/Mybatis/Mybatis-源码环境搭建.md)
+    * [Mybatis-整体架构分析](/md/源码分析/Mybatis/Mybatis-整体架构分析.md)
 * 项目
   * [微信公众号开发](/md/项目/微信公众号开发.md)
 * 其他
