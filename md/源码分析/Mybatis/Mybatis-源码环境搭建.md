@@ -622,31 +622,39 @@ class ArticleMapperTest {
 
 运行测试方法，发现居然报错！报错信息如下所示：<br />![image-20230920170957724](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309201709914.png)
 
-提示需要添加 `javassist` 依赖，因此在 `mybatis-study` 父模块的 `pom.xml` 配置文件中声明该依赖，然后在当前模块中引入依赖即可！
+提示需要添加 `javassist` 依赖，存在如下两种解决方案：
 
-```xml
-<dependency>
-    <groupId>org.javassist</groupId>
-    <artifactId>javassist</artifactId>
-    <version>3.29.2-GA</version>
-    <scope>compile</scope>
-    <optional>true</optional>
-</dependency>
-```
+1. 在 `mybatis-study` 父模块的 `pom.xml` 配置文件中声明该依赖，然后在当前模块中引入依赖即可！
+
+   ```xml
+   <dependency>
+     <groupId>org.javassist</groupId>
+     <artifactId>javassist</artifactId>
+     <version>3.29.2-GA</version>
+     <scope>compile</scope>
+     <optional>true</optional>
+   </dependency>
+   ```
+
+2. 修改 mybatis 源码模块中的 `pom.xml` 配置文件，将关于 `javassist` 依赖中的 `<optional>true</optional>` 改为 `false` 或者注释掉，如下所示：<br />![image-20230921204821783](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309212048015.png)
 
 再次运行测试方法，发现还是报错！报错信息如下所示：<br />![image-20230920172040445](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309201720566.png)
 
-提示找不到 `ognl/PropertyAccessor` 类，查阅资料发现需要添加 `ognl` 依赖，因此在 `mybatis-study` 父模块的 `pom.xml` 配置文件中声明该依赖，然后在当前模块中引入依赖即可！
+提示找不到 `ognl/PropertyAccessor` 类，查阅资料发现需要添加 `ognl` 依赖，依旧存在如下两种解决方案：
 
-```xml
-<dependency>
-    <groupId>ognl</groupId>
-    <artifactId>ognl</artifactId>
-    <version>3.3.4</version>
-    <scope>compile</scope>
-    <optional>true</optional>
-</dependency>
-```
+1. 在 `mybatis-study` 父模块的 `pom.xml` 配置文件中声明该依赖，然后在当前模块中引入依赖即可！
+
+   ```xml
+   <dependency>
+       <groupId>ognl</groupId>
+       <artifactId>ognl</artifactId>
+       <version>3.3.4</version>
+       <scope>compile</scope>
+       <optional>true</optional>
+   </dependency>
+   ```
+
+2. 修改 mybatis 源码模块中的 `pom.xml` 配置文件，将关于 `ognl` 依赖中的 `<optional>true</optional>` 改为 `false` 或者注释掉，如下所示：<br />![image-20230921205223117](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309212052226.png)
 
 再次运行测试方法，发现终于成功啦！测试结果如下所示：<br />![image-20230920173521792](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309201735888.png)
 
