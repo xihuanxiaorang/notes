@@ -46,20 +46,32 @@
    > [!important]
    > **我亦无他， 惟手熟尔**<br />事实上，到了基本掌握设计模式的水平后，只有一个建议，那就是**反复地**、**深入地思考**，**别无他法**。到了思想的层面，就得靠"悟"了。
 
+## 七大设计原则
+
+### 单一职责原则 SRP(Single Responsibility Principle)
+
+### 开闭原则 OCP(Open Closed Principle)
+
+
+
+<span style="background-color: rgb(251, 228, 231);">TODO</span>
+
 ## 23 种设计模式
 
 > [!ATTENTION]
-> [简单工厂(Simple Factory)](./简单工厂.md)，创建型模式，但是由于违反"开闭原则"，因此并不属于"GoF"提出的 23 种经典设计模式！
+> [简单工厂模式(Simple Factory)](./简单工厂模式.md)，<span style="background-color: rgb(251, 228, 231);">创建型</span>模式，但是由于违反"开闭原则"，因此并不属于"GoF"提出的 23 种经典设计模式！
 
 
-| 名称                                   | 类型                                                         | 定义                                                         | 图片                                                         |
-| -------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [单例模式(Singlton)](./单例模式.md)    | <span style="background-color: rgb(251, 228, 231);">创建型</span> | 确保一个类任何情况下都绝对只有一个实例，并提供一个全局访问点。 | <img src="https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309231512996.png" alt="img"  /> |
-| [代理模式(Proxy)](./代理模式.md)       | <span style="background-color: rgb(232, 247, 207);">结构型</span> | 为其他对象提供一种代理以控制对这个对象的访问                 | ![img](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309231515411.png) |
-| [适配器模式(Adapter)](./适配器模式.md) | <span style="background-color: rgb(232, 247, 207);">结构型</span> | 将一个类的接口转换成客户希望的另外一个接口。适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。 | ![](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309250107383.png) |
+| 名称                                              | 类型                                                         | 定义                                                         | 图片                                                         |
+| ------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [工厂方法模式(Factory Method)](./工厂方法模式.md) | <span style="background-color: rgb(251, 228, 231);">创建型</span> | 工厂父类负责定义一个创建产品对象的公共接口，而工厂子类则负责生产具体的产品对象，这样做的目的是将产品类的实例化操作延迟到工厂子类中完成，即通过工厂子类来确定究竟要实例化哪一个具体的产品类。 | ![工厂方法模式](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309252342966.png) |
+| [单例模式(Singlton)](./单例模式.md)               | <span style="background-color: rgb(251, 228, 231);">创建型</span> | 确保一个类任何情况下都绝对只有一个实例，并提供一个全局访问点。 | <img src="https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309252326712.png" alt="img"  /> |
+| [代理模式(Proxy)](./代理模式.md)                  | <span style="background-color: rgb(232, 247, 207);">结构型</span> | 为其他对象提供一种代理以控制对这个对象的访问。               | ![img](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309231515411.png) |
+| [适配器模式(Adapter)](./适配器模式.md)            | <span style="background-color: rgb(232, 247, 207);">结构型</span> | 将一个类的接口转换成客户希望的另外一个接口。适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。 | ![](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309250107383.png) |
 
 ## 参考资料🎁
 
 - [《研磨设计模式》](https://book.douban.com/subject/5343318/)，**强烈推荐！！！**
 - [《深入设计模式》](https://refactoringguru.cn/)，**强烈推荐！！！**
+- [《图说设计模式》](https://design-patterns.readthedocs.io/zh_CN/latest/index.html)
 - [小 D 深入浅出设计模式 · 语雀](https://www.yuque.com/heibaruge/wtu98p/xg8geb#ynaTa)
