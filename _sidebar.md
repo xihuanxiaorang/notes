@@ -68,3 +68,4 @@
     * [视频下载工具](/md/工具/其他工具/视频下载工具.md)
     * [Office部署激活工具](/md/工具/其他工具/Office部署激活工具.md)
     * [篡改猴(Tampermonkey)](/md/工具/其他工具/篡改猴(Tampermonkey).md)
+    * [PicList+Github搭建个人云图床](/md/工具/其他工具/PicList+Github搭建个人云图床.md)
