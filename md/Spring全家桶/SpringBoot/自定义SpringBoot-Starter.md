@@ -54,8 +54,10 @@ mindmapDiagram {
 	* 4. 创建 starter 模块，名称为 xxx-spring-boot-starter <<rose>>
 		* 1. 一个空的项目，无任何代码实现， 在 pom.xml 文件中 添加 spring-boot-starter、xxx-spring-boot-autoconfigure 和 第三方组件依赖即可 <<blue>>
 		* 2. mvn install，安装到本地仓库，在其他项目的 pom.xml 中添加该 xxx-spring-boot-starter 依赖即可使用 <<blue>>
-@endmindmap<br />现在从 0 开始，手撸一个基于 Amazon S3 协议可适配市面上大部分对象存储服务（OSS - Object Storage Service）的 SpringBoot Starter。
+@endmindmap
 ```
+
+现在从 0 开始，手撸一个基于 Amazon S3 协议可适配市面上大部分对象存储服务（OSS - Object Storage Service）的 SpringBoot Starter。
 
 ## 实现一个基于 Amazon S3 协议的对象存储服务的 SpringBoot Starter
 
