@@ -49,6 +49,9 @@
     * [导读](/md/源码分析/Mybatis/README.md)
     * [Mybatis-源码环境搭建](/md/源码分析/Mybatis/Mybatis-源码环境搭建.md)
     * [Mybatis-整体架构分析](/md/源码分析/Mybatis/Mybatis-整体架构分析.md)
+    * 基础支撑层
+      * [Mybatis-日志模块](/md/源码分析/Mybatis/基础支撑层/Mybatis-日志模块.md)
+      * [Mybatis-数据源与事务管理模块](/md/源码分析/Mybatis/基础支撑层/Mybatis-数据源与事务管理模块.md)
 * 项目
   * [微信公众号开发](/md/项目/微信公众号开发.md)
 * 其他
