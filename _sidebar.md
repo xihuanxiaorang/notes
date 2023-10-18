@@ -69,6 +69,7 @@
   * 开发者工具
     * [IntelliJ IDEA](/md/工具/开发者工具/IDEA.md)
     * [Git](/md/工具/开发者工具/Git.md)
+    * [MapStruct](/md/工具/开发者工具/MapStruct.md)
     * [内网穿透工具](/md/工具/开发者工具/内网穿透工具.md)
   * 其他工具
     * [视频下载工具](/md/工具/其他工具/视频下载工具.md)
