@@ -172,3 +172,83 @@ classDiagram
       - 是指 `Exception` 类中除了 `RuntimeException` 及其子类之外的所有异常；
       - 受检查异常是在**编译时**由编译器强制检查的异常，**必须在代码中明确对该异常进行处理，要么使用 `try-catch` 捕获，要么使用 `throws` 语句抛出，否则的话编译不通过**；
       - 常见的受检异常有：`IOException`、`SQLException`、`ClassNotFoundException`、`NoSuchFieldException` 等等；
+
+## mapper 文件不生效的原因以及解决方案
+
+原因：默认情况下，在 `src/main/java` 目录下的 `xxxMapper.xml` 文件在编译时并没有被正确复制到类路径中。
+
+解决方案：配置 pom.xml 文件中的 `<build>` 部分的 `resources` 配置，用于定义该如何处理项目中的资源文件，如下所示：
+
+```xml
+<build>
+  <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+            <filtering>true</filtering>
+        </resource>
+        <resource>
+            <directory>src/main/java</directory>
+            <includes>
+                <include>**/*.xml</include>
+            </includes>
+            <filtering>true</filtering>
+        </resource>
+    </resources>
+</build>
+```
+
+- 当设置 `<filtering>true</filtering>` 时，表示要启用资源过滤。这意味着 Maven 会在将资源复制到目标目录之前，解析并替换资源文件中的占位符或属性。这对于将配置信息动态注入到资源文件中非常有用，例如将版本号、数据库连接信息等替换到配置文件中。
+- 当设置 `<filtering>false</filtering>` 时，表示禁用资源过滤。资源文件将以原样复制到目标目录，不会执行任何替换操作。
+
+在 Maven 项目中，你可以在 `<build>` 部分的 `<resources>` 配置中设置 `<filtering>` 为 `true`，并在资源文件中使用 `${property}` 或 `@property@` 这样的占位符，然后在 Maven 的构建过程中，这些占位符会被替换为实际的属性值或配置信息。
+
+举个栗子，在 `src/main/resources` 目录中有一个配置文件 `application.properties`，其中包含如下内容：
+
+```properties
+database.url=@db.url@
+database.username=@db.username@
+```
+
+如果你在 `pom.xml` 中设置了 `<filtering>true>`，并在 Maven 的 `<properties>` 中定义了 `db.url` 和 `db.username` 的值，那么 Maven 会在构建过程中替换 `@db.url@` 和 `@db.username@` 为实际的值，然后再将这个文件复制到目标目录。这允许你根据不同环境的需要自定义配置文件。
+
+## try-with-resources 自动关闭资源
+
+`try-with-resources` 是 Java 7 引入的一个语言特性，用于自动关闭实现 `java.lang.AutoCloseable` 接口的资源，例如文件流、数据库连接、网络连接等。这个特性的目的是简化资源管理和减少资源泄漏的风险。使用 `try-with-resources` 可以更加优雅地处理资源的关闭，无需手动编写 `finally` 块来确保资源的释放。它有助于避免资源泄漏，提高代码的可读性和稳定性。
+
+`try-with-resources` 还支持多个资源的同时管理，你可以在 `try` 后面的括号中列出多个资源，它们会**按照声明的顺序从后往前依次关闭资源**，确保资源的正确关闭和释放。举个栗子，如下所示：
+
+```java
+try (ResourceType1 resource1 = new ResourceType1();
+     ResourceType2 resource2 = new ResourceType2()) {
+    // 在这个块中使用资源1和资源2
+    // 当块结束时，资源2会首先关闭，然后是资源1
+} catch (Exception e) {
+    // 异常处理
+}
+```
+
+如果 `try-with-resources` 块中关闭资源的 `close()` 方法抛出异常，会发生如下两种情况：
+
+- **关闭资源的异常（Suppressed Exception）**：当资源的 `close()` 方法抛出异常时，这个异常不会中断程序的执行。相反，它会被捕获，然后以一个"被抑制的异常"的形式存储在主异常中，主异常继续传播。
+- **主异常**：主异常是在 `try-with-resources` 块内部的代码中抛出的异常，它是最初引发 `close()` 方法异常的原因。主异常会继续传播，可以由上层代码捕获和处理。
+
+为了处理资源的 `close()` 方法抛出的异常，你可以使用以下方式：
+
+```java
+try (ResourceType resource = new ResourceType()) {
+    // 使用资源
+} catch (Exception e) {
+    // 主异常处理
+    Throwable[] suppressed = e.getSuppressed();
+    for (Throwable t : suppressed) {
+        // 处理被抑制的异常
+    }
+}
+```
+
+在上面的示例中，当主异常被捕获时，你可以使用 `getSuppressed()` 方法来获取被抑制的异常，然后处理它们。被抑制的异常通常代表了资源关闭时的问题，例如文件无法正常关闭或数据库连接出现问题。
+
+需要注意的是，资源的 `close()` 方法抛出的异常通常不应该中断程序的执行，而应该被记录并处理，以确保资源得到适当的关闭和释放。处理被抑制的异常是一种优雅的方式来管理资源的关闭异常，同时保持程序的稳定性。

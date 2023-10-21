@@ -166,7 +166,7 @@ public class TestController {
 >    ```
 
 ```java
-@RestControllerAdvice(basePackages = "fun.xiaorang.result.controller")
+@RestControllerAdvice
 public class ResponseInterceptor implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -317,12 +317,11 @@ public class BusinessException extends RuntimeException {
 >
 > ```yaml
 > spring:
-> mvc:
->  throw-exception-if-no-handler-found: true
-> web:
->  resources:
->    add-mappings: false
-> ```
+>   mvc:
+>      throw-exception-if-no-handler-found: true
+>   resources:
+>      add-mappings: false
+>    ```
 
 ```java
 @Slf4j
