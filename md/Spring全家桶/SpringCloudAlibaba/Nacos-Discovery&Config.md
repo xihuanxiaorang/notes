@@ -61,7 +61,8 @@ Nacos 依赖 Java 环境来运行，请确保是在以下版本环境中安装�
 
 | SpringCloudAlibaba | Spring Cloud | SpringBoot | Nacos |
 | --- | --- | --- | --- |
-| 2.2.9.RELEASE | Spring Cloud Hoxton.SR12 | 2.3.12.RELEASE | 2.1.0 |
+| 2.2.9.RELEASE | Hoxton.SR12  | 2.3.12.RELEASE | 2.1.0 |
+| 2021.0.5.0 | 2021.0.5 | 2.6.13 | 2.2.0 |
 
 如上表所示，假如 SpringCloudAlibaba 选择 2.2.9.RELEASE 版本，则 Nacos 组件对应的版本为 2.1.0，因此需要安装 2.1.0 版本的 nacos-server 服务器 [Release 2.1.0 (Apr 29, 2022) · alibaba/nacos (github.com)](https://github.com/alibaba/nacos/releases/tag/2.1.0).<br />![image.png](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202308011514024.png)
 ```bash
