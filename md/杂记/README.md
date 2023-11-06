@@ -145,34 +145,6 @@ reduce(callbackFn, initialValue)
 
 如此，即可在 IntelliJ IDEA 中直接生成和运行可执行的 JAR 文件，而无需使用其他 Maven 插件。
 
-## Java 异常体系
-
-```mermaid
-classDiagram
-    Throwable <|-- Exception
-    Throwable <|-- Error
-    Exception <|-- RuntimeException
-    Exception <|-- 非RuntimeException
-```
-
-
-
-- `Throwable`：Java 异常体系的根类，它是所有异常类的超类，其主要有如下两个子类：
-
-  - `Error`：**错误**表示严重的问题，通常是虚拟机或系统本身的问题，不太可能由程序员处理。错误不应该捕获或处理，通常用于表示系统资源耗尽、虚拟机内部错误等情况。常见的有：
-    - `StackOverflowError`：表示方法调用栈溢出，通常是由于无限递归或方法调用引起的；
-    - `OutOfMemoryError`：表示应用程序耗尽了可用的内存资源，无法继续执行；
-
-  - `Exception`：是程序本身可以捕获并且可以处理的异常。可以分为如下两类：
-    - **运行时异常**（RuntimeException）：aka 不受检异常（Unchecked Exception）
-      - 运行时异常是不受编译器强制检查的异常，通常表示**编程错误**、**逻辑错误**或其他无法合理预测或处理的情况；
-      - 运行时异常是 `RuntimeException` 类及其子类的实例，通常不需要显式处理；
-      - 常见的运行时异常有：`ClassCastException`、`ArithmeticException`、`IndexOutOfBoundsException`、`NullPointerException` 等等；
-    - 非运行时异常，aka **受检异常**（Checked Exception）
-      - 是指 `Exception` 类中除了 `RuntimeException` 及其子类之外的所有异常；
-      - 受检查异常是在**编译时**由编译器强制检查的异常，**必须在代码中明确对该异常进行处理，要么使用 `try-catch` 捕获，要么使用 `throws` 语句抛出，否则的话编译不通过**；
-      - 常见的受检异常有：`IOException`、`SQLException`、`ClassNotFoundException`、`NoSuchFieldException` 等等；
-
 ## mapper 文件不生效的原因以及解决方案
 
 原因：默认情况下，在 `src/main/java` 目录下的 `xxxMapper.xml` 文件在编译时并没有被正确复制到类路径中。

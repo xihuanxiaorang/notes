@@ -57,6 +57,12 @@
       * [Mybatis-数据源与事务管理模块](/md/源码分析/Mybatis/基础支撑层/Mybatis-数据源与事务管理模块.md)
 * 项目
   * [微信公众号开发](/md/项目/微信公众号开发.md)
+* 面试宝典
+  * Java 基础
+    * [Java 基础面试题（上）](/md/面试宝典/basic/Java基础面试题（上）.md)
+    * [Java 基础面试题（下）](/md/面试宝典/basic/Java基础面试题（下）.md)
+  * Java 集合
+    * [Java 集合面试题（上）](/md/面试宝典/collection/Java集合面试题（上）.md)
 * 其他
   * [搞定UML类图！](/md/其他/搞定UML类图！.md)
 * 杂记

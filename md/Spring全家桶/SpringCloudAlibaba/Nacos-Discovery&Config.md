@@ -1063,16 +1063,53 @@ Nacos Config 内部提供了一个 Endpoint，EndPoint 的访问地址为 [http:
     - ❗注意：当该配置值为空时，dataId 变为`${prefix}.${file-extension}`的拼接格式；
     - ❗注意：`spring.profiles.active`当通过配置文件来指定时必须放在 bootstrap.properties 或者 <u>bootstrap.yml</u> 配置文件中；在真正的项目实施过程中这个变量的值是需要根据不同环境而有不同的值，这个时候通常的做法是通过`-Dspring.profiles.active=<profile>`参数指定其配置来达到环境间灵活的切换；
     - Nacos Config 在加载配置时，不仅仅加载 dataId 为`${prefix}.${file-extension}`为前缀的基础配置，还会加载 dataId 为`${prefix}-${spring.profiles.active}.${file-extension}`的配置；
-
   - file-extension：配置内容的数据格式；
-
+  
     - 目前只支持 properties 和 yaml 两种格式；
+  - 默认为 properties 格式，不过可以通过`spring.cloud.nacos.config.file-extension`来配置；
 
-    - 默认为 properties 格式，不过可以通过`spring.cloud.nacos.config.file-extension`来配置；
+## 遇到的问题💣
+
+### `bootstrap.yml` 配置文件不生效
+
+当前环境：
+
+| SpringCloudAlibaba | Spring Cloud | SpringBoot | Nacos |
+| :----------------- | ------------ | ---------- | ----- |
+| 2021.0.5.0         | 2021.0.5     | 2.6.13     | 2.2.0 |
+
+[原文传送门](https://docs.spring.io/spring-cloud/docs/2020.0.1/reference/htmlsingle/#config-first-bootstrap)
+
+> To use the legacy bootstrap way of connecting to Config Server, **bootstrap must be enabled via a property or the `spring-cloud-starter-bootstrap` starter. The property is `spring.cloud.bootstrap.enabled=true`. It must be set as a System Property or environment variable.** 
+
+大致意思：需要配置属性 **`spring.clod.bootstrap.enable = true`（该属性必须被设置为系统属性或环境变量）**或者添加如下依赖：
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-bootstrap</artifactId>
+</dependency>
+```
+
+### gateway 503 Service Unavailable
+
+当前环境：
+
+| SpringCloudAlibaba | Spring Cloud | SpringBoot | Nacos |
+| :----------------- | ------------ | ---------- | ----- |
+| 2021.0.5.0         | 2021.0.5     | 2.6.13     | 2.2.0 |
+
+由于使用 `lb://服务名` 来进行负载均衡，但是在 Spring Cloud 2020 版本中就移除了 Ribbon 依赖，因此需要手动添加 `spring-cloud-starter-loadbalancer` 依赖来代替 Ribbon，如下所示：
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+</dependency>
+```
+
 ## 参考资料🎁
 
 - [Spring Cloud Alibaba 参考文档 (spring-cloud-alibaba-group.github.io)](https://spring-cloud-alibaba-group.github.io/github-pages/hoxton/zh-cn/index.html)
 - [Nacos](https://nacos.io/zh-cn/)
 - [Nacos discovery](https://github.com/alibaba/spring-cloud-alibaba/wiki/Nacos-discovery) & [Nacos config](https://github.com/alibaba/spring-cloud-alibaba/wiki/Nacos-config)
-
-Nacos 配置管理，其中一个立身之本就是为敏感配置保驾护航。它提供上述场景所需的功能，通过命名空间区分不同环境（开发、测试、预发、生产），通过“版本控制”保证变更可追溯，通过“快速回滚”保证错误变更时影响最小，通过的“灰度发布”功能保障配置安全平稳地变更，还有更多更全面功能（权限管控、变更审计等）即将支持。

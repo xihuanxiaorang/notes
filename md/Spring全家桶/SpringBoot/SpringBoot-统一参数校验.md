@@ -300,6 +300,10 @@ public class ValidatorConfiguration {
 
 启用快速失败验证，这有助于提高验证的效率和准确性，因为它可以在发现第一个错误时立即停止验证，而不浪费时间验证其他字段。
 
+> [!NOTE]
+>
+> 如果当前配置类 `ValidatorConfiguration`是在一个公共模块当中，则必须在**自动配置类（即配置在 `spring.factories` 文件中的类）**上标注 `@AutoConfigureBefore(ValidationAutoConfiguration.class)` 注解，在 SpringBoot 自带的 `ValidationAutoConfiguration` 自动配置类之前被加载，否则的话，上面自定义的 `Validator` 组件并不会生效！
+
 再次发送请求，返回结果如下所示：<br />![image-20231014163756147](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202310141637215.png)
 
 可以看到其在遇到第一个验证失败，即用户名为空的情况，验证会立即终止并抛出异常，不再进行后续字段的验证，由此说明咱们的快速失败模式已成功启用！

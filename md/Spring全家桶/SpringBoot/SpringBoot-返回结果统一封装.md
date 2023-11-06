@@ -317,10 +317,10 @@ public class BusinessException extends RuntimeException {
 >
 > ```yaml
 > spring:
->   mvc:
->      throw-exception-if-no-handler-found: true
->   resources:
->      add-mappings: false
+>       mvc:
+>          throw-exception-if-no-handler-found: true
+>       resources:
+>          add-mappings: false
 >    ```
 
 ```java

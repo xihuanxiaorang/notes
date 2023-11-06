@@ -23,6 +23,7 @@
 19. 大小写转换：Ctrl + Shift + U
 20. 折叠：Ctrl + NumPad-
 21. 展开：Ctrl + NumPad+
+22. 显示图弹出层：Ctrl + Alt + U
 
 ## 配置
 

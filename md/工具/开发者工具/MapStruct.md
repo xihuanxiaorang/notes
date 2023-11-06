@@ -129,12 +129,11 @@ MapStruct 代码生成器可以使用注解处理器选项进行配置。
 列举常用选项：
 
 - `mapstruct.defaultComponentModel`，其常用的可选值有：
-
   - `default`：映射器不使用组件模型，通常通过 `Mappers#getMapper(Class)` 检索实例；
-
+  
   - `spring`：生成的映射器是一个单例的 Spring Bean，可以通过 `@Autowired` 注解检索；
   - 至于其他的 `cdi`、`jsr330` 等等请自行参考文档 https://mapstruct.org/documentation/stable/reference/html/#configuration-options
-
+  
 - `mapstruct.defaultInjectionStrategy`：用于指定映射器（Mapper）中默认的依赖注入方式，该配置仅适用于基于注解的组件模型，例如 CDI（Contexts and Dependency Injection）、Spring 和 JSR 330。存在如下两个可选值：
 
   - `field`（默认值）：使用字段注入依赖。在生成的映射类中，依赖的目标对象通常作为字段声明，并在映射方法之前通过字段注入进行初始化。
