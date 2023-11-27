@@ -1,0 +1,19 @@
+{
+  "attachmentFolderPath": "/attachments",
+  "readableLineLength": false,
+  "promptDelete": false,
+  "showInlineTitle": false,
+  "newFileLocation": "root",
+  "strictLineBreaks": false,
+  "newLinkFormat": "relative",
+  "useMarkdownLinks": true,
+  "pdfExportSettings": {
+    "includeName": true,
+    "pageSize": "A4",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  },
+  "tabSize": 2,
+  "showLineNumber": false
+}

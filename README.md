@@ -10,4 +10,4 @@
 
 ---
 
-把博客安装到手机桌面：iOS 用户可以通过 Safari 浏览器来保存 blog.xiaorang.fun 到应用到首页屏幕上。具体操作：在 Safari 浏览器中打开博客 https://blog.xiaorang.fun 点击`分享按钮`->`添加到主屏幕`即可。—— 随时随地，开启学习
+把博客安装到手机桌面：iOS 用户可以通过 Safari 浏览器来保存 blog.xiaorang.fun 到应用到首页屏幕上。具体操作：在 Safari 浏览器中打开博客 https://blog.xiaorang.fun 点击 `分享按钮`->`添加到主屏幕` 即可。—— 随时随地，开启学习

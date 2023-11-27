@@ -40,7 +40,7 @@ MapStruct 是一个 **Java 注解处理器，用于为 Java Bean 类生成类型
 
 MapStruct 是基于 JSR 269 规范的 Java 注解处理器，因此可以在命令行构建（javac，Ant，Maven 等）以及 IDE 中使用。
 
-它包含以下组件: 
+它包含以下组件:
 
 - `org.mapstruct`: 包含所需的注解，如 `@Mapping`；
 - `org.mapstruct:mapstruct-processor`: 包含生成映射器实现的注解处理器；
@@ -130,12 +130,9 @@ MapStruct 代码生成器可以使用注解处理器选项进行配置。
 
 - `mapstruct.defaultComponentModel`，其常用的可选值有：
   - `default`：映射器不使用组件模型，通常通过 `Mappers#getMapper(Class)` 检索实例；
-  
   - `spring`：生成的映射器是一个单例的 Spring Bean，可以通过 `@Autowired` 注解检索；
   - 至于其他的 `cdi`、`jsr330` 等等请自行参考文档 https://mapstruct.org/documentation/stable/reference/html/#configuration-options
-  
 - `mapstruct.defaultInjectionStrategy`：用于指定映射器（Mapper）中默认的依赖注入方式，该配置仅适用于基于注解的组件模型，例如 CDI（Contexts and Dependency Injection）、Spring 和 JSR 330。存在如下两个可选值：
-
   - `field`（默认值）：使用字段注入依赖。在生成的映射类中，依赖的目标对象通常作为字段声明，并在映射方法之前通过字段注入进行初始化。
   - `constructor`：使用构造函数注入依赖。在这种策略下，生成的映射类会创建构造函数，该构造函数将依赖的目标对象作为参数，通过构造函数注入来初始化依赖。
 
@@ -143,7 +140,7 @@ MapStruct 代码生成器可以使用注解处理器选项进行配置。
 
 > [IDE Support – MapStruct](https://mapstruct.org/documentation/ide-support/)
 
-以  IntelliJ IDEA 为例，安装 [MapStruct Support - IntelliJ IDEs Plugin | Marketplace (jetbrains.com)](https://plugins.jetbrains.com/plugin/10036-mapstruct-support) 插件，该插件具备如下[特性](https://github.com/mapstruct/mapstruct-idea#features)：
+以 IntelliJ IDEA 为例，安装 [MapStruct Support - IntelliJ IDEs Plugin | Marketplace (jetbrains.com)](https://plugins.jetbrains.com/plugin/10036-mapstruct-support) 插件，该插件具备如下 [特性](https://github.com/mapstruct/mapstruct-idea#features)：
 
 - 代码补全 <br />![Code completion for source](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202310170238644.gif)
 - 转到声明 <br />![Go To Declaration](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202310170238809.gif)
@@ -155,7 +152,7 @@ MapStruct 代码生成器可以使用注解处理器选项进行配置。
 
 下面演示如何使用 MapStruct 映射两个对象。
 
-### 实体类和DTO
+### 实体类和 DTO
 
 假设咱们有一个代表汽车的类（例如，JPA 实体）和一个附带的数据传输对象（DTO）。
 
@@ -330,9 +327,9 @@ MapStruct 将生成一个 `CarMapper` 的子类，并且该子类重写了 `carT
 
 ## 与 Lombok 一起使用
 
-MapStruct 从 1.2.0.Beta1 版本开始可以与 Lombok 1.16.14及更高版本一起使用。MapStruct 会自动利用 Lombok 生成的 getter、setter 方法和构造函数，并在生成映射器时使用它们，从而减少手动编写代码的工作，让你的代码更简洁和易于维护，这两个工具的组合可以极大地提高开发效率。
+MapStruct 从 1.2.0.Beta1 版本开始可以与 Lombok 1.16.14 及更高版本一起使用。MapStruct 会自动利用 Lombok 生成的 getter、setter 方法和构造函数，并在生成映射器时使用它们，从而减少手动编写代码的工作，让你的代码更简洁和易于维护，这两个工具的组合可以极大地提高开发效率。
 
-Lombok 在 1.18.16 版本中引入了一个重大变化，需要添加一个额外的注解处理器 `lombok-mapstruct-binding`（适用于Maven项目），否则的话 MapStruct 将无法与 Lombok 一起正常工作。这个注解处理器的作用是用来解决 Lombok 和 MapStruct 模块之间的编译问题。通过添加它，可以确保 Lombok 和 MapStruct 在项目中协同工作，并避免潜在的编译问题。
+Lombok 在 1.18.16 版本中引入了一个重大变化，需要添加一个额外的注解处理器 `lombok-mapstruct-binding`（适用于 Maven 项目），否则的话 MapStruct 将无法与 Lombok 一起正常工作。这个注解处理器的作用是用来解决 Lombok 和 MapStruct 模块之间的编译问题。通过添加它，可以确保 Lombok 和 MapStruct 在项目中协同工作，并避免潜在的编译问题。
 
 完整配置如下所示：
 

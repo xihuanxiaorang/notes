@@ -1,4 +1,4 @@
-# Mybatis-源码环境搭建
+# Mybatis- 源码环境搭建
 
 ## 源码下载 & 编译
 
@@ -20,7 +20,7 @@
 
 打开 IDEA，创建一个 `mybatis-study` 的父模块项目，<br />![image-20230920130736551](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309201310098.png)
 
-删除其 `src` 目录并将其打包方式为修改为 `pom` 方式，并将以上两个模块 `parent-mybatis-parent-37` 和 `mybatis-3-mybatis-3.5.13` 作为 `mybatis-study` 模块的子模块，即在 `mybatis-study` 模块的 `pom.xml` 配置文件中的`modules` 标签中添加对应的 `module` 子标签，如下所示：<br />![image-20230920132532607](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309201325708.png)
+删除其 `src` 目录并将其打包方式为修改为 `pom` 方式，并将以上两个模块 `parent-mybatis-parent-37` 和 `mybatis-3-mybatis-3.5.13` 作为 `mybatis-study` 模块的子模块，即在 `mybatis-study` 模块的 `pom.xml` 配置文件中的 `modules` 标签中添加对应的 `module` 子标签，如下所示：<br />![image-20230920132532607](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309201325708.png)
 
 然后点击右上角的小图标，可以用于加载 Maven 更改。
 
@@ -143,7 +143,7 @@
 </project>
 ```
 
-然后在 `mybatis-source-test` 测试子模块的`pom.xml` 配置文件中引入所需的 MySQL 驱动、druid 连接池以及 `mybatis-3.5.13-MY` 版本的 mybatis 依赖。
+然后在 `mybatis-source-test` 测试子模块的 `pom.xml` 配置文件中引入所需的 MySQL 驱动、druid 连接池以及 `mybatis-3.5.13-MY` 版本的 mybatis 依赖。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -180,7 +180,7 @@
 
 接下来的所有操作全部位于 `mybatis-source-test` 测试子模块中。
 
-#### SQL脚本
+#### SQL 脚本
 
 执行如下所示 SQL，用于创建测试案例所需的 `mybatis-source-test` 数据库以及 `author` 和 `article` 表，为了方便测试，向表中添加少量测试数据。
 
@@ -322,7 +322,7 @@ public interface AuthorMapper {
 
 #### 配置类
 
-为了使用`druid`作为数据源连接池，自定义数据源工厂类，继承自 `PooledDataSourceFactory`。
+为了使用 `druid` 作为数据源连接池，自定义数据源工厂类，继承自 `PooledDataSourceFactory`。
 
 ```java
 public class MyDruidDataSourceFactory extends PooledDataSourceFactory {
@@ -686,4 +686,3 @@ class AuthorMapperTest {
 运行测试方法，测试结果如下所示：<br />![image-20230920174140336](https://fastly.jsdelivr.net/gh/xihuanxiaorang/img/202309201741437.png)
 
 至此，Mybatis 源码环境就搭建成功啦~🥳🥳🥳
-

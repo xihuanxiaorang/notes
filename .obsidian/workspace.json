@@ -1,0 +1,209 @@
+{
+  "main": {
+    "id": "6a0c0e6cdddd75f0",
+    "type": "split",
+    "children": [
+      {
+        "id": "e611ef2a75b0c282",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5ab31973adad630f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "9c0bc761da48621a",
+    "type": "split",
+    "children": [
+      {
+        "id": "ae42256d1990d69a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "269ed8a1cfd8163b",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "afa4a725ad9b5805",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "ee5efb55aa9714fc",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 291.5
+  },
+  "right": {
+    "id": "3464ea9515a27a51",
+    "type": "split",
+    "children": [
+      {
+        "id": "c2e3210dd3e03ccb",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5a7eea547be63097",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "README.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "436df06dd2ed8317",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "README.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "c9fdd4d38f22fc14",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": false
+              }
+            }
+          },
+          {
+            "id": "51cfa68950d59346",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "README.md"
+              }
+            }
+          },
+          {
+            "id": "19671bf8d40aa220",
+            "type": "leaf",
+            "state": {
+              "type": "quiet-outline",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 307.5
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "command-palette:打开命令面板": false,
+      "obsidian-excalidraw-plugin:新建绘图文件": false,
+      "graph:查看关系图谱": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "templates:插入模板": true,
+      "random-note:开始漫游笔记": false,
+      "markdown-importer:打开 Markdown 格式转换器": true,
+      "workspaces:管理工作区布局": true
+    }
+  },
+  "active": "5ab31973adad630f",
+  "lastOpenFiles": [
+    "attachments/Pasted Image 20231123115608_338.png",
+    "public/webfonts/fa-solid-900.svg",
+    "public/webfonts/fa-regular-400.svg",
+    "public/webfonts/fa-brands-400.svg",
+    "public/images/personal/wechat.png",
+    "public/favicon-32x32.png",
+    "public/favicon-16x16.png",
+    "public/apple-touch-icon.png",
+    "public/android-chrome-512x512.png",
+    "public/android-chrome-192x192.png",
+    "attachments/Pasted Image 20231123115536_952.png",
+    "excalidraw/leetcode/24.两两交换链表中的节点.excalidraw.md",
+    "excalidraw/leetcode/88-合并两个有序数组.excalidraw.md",
+    "excalidraw/leetcode/189.轮转数组.excalidraw.md",
+    "excalidraw/leetcode/206.反转链表.excalidraw.md",
+    "excalidraw/leetcode/704-二分查找.excalidraw.md",
+    "excalidraw/leetcode/912.排序数组.excalidraw.md",
+    "excalidraw/spring全家桶/springcloudalibaba/nacos配置优先级.excalidraw.md",
+    "excalidraw/leetcode/59.螺旋矩阵 II.excalidraw.md",
+    "excalidraw/leetcode/19.删除链表的倒数第 N 个结点.excalidraw.md",
+    "excalidraw/java/core/jdbc/JDBC执行流程.excalidraw.md",
+    "excalidraw/java/core/jdbc/JDBC标准.excalidraw.md",
+    "excalidraw/源码分析/mybatis/mybatis源码结构.excalidraw.md",
+    "excalidraw/源码分析/mybatis/mybatis三层架构图.excalidraw.md",
+    "excalidraw/小游戏/贪吃蛇小游戏设计图纸.excalidraw.md",
+    "excalidraw/小游戏/弹球小游戏设计图纸.excalidraw.md",
+    "excalidraw/小游戏/2048小游戏设计图纸.excalidraw.md",
+    "excalidraw/数据结构/C语言知识点.excalidraw.md",
+    "excalidraw/数据结构/顺序表.excalidraw.md",
+    "attachments/fonts/LXGWWenKaiMono-Bold.ttf",
+    "attachments/fonts",
+    "md/工具/开发者工具/MapStruct.md",
+    "md/杂记/Windows11中安装Linux教程之WLS2的使用.md",
+    "md/杂记/Windows-Terminal美化.md",
+    "md/杂记/README.md",
+    "md/杂记/手绘风格的开源白板Excalidraw搭建教程.md",
+    "md/杂记/开发环境搭建.md",
+    "md/研磨设计模式/装饰器模式.md",
+    "node_modules/yargonaut/node_modules/supports-color/package.json",
+    "node_modules/yargonaut/node_modules/supports-color/license",
+    "node_modules/yargonaut/node_modules/supports-color/index.js",
+    "node_modules/yargonaut/node_modules/strip-ansi/package.json",
+    "node_modules/yargonaut/node_modules/strip-ansi/index.js",
+    "node_modules/yargonaut/node_modules/strip-ansi/license",
+    "node_modules/yargonaut/node_modules/chalk/package.json",
+    "node_modules/yargonaut/node_modules/chalk/license",
+    "未命名.canvas"
+  ]
+}
