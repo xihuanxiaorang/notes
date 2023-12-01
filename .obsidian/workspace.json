@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "e611ef2a75b0c282",
+        "id": "07585e63aa3cafc8",
         "type": "tabs",
         "children": [
           {
-            "id": "5ab31973adad630f",
+            "id": "00ac27baee194c40",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "md/Spring全家桶/SpringSecurity/Oauth2.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "md/Spring全家桶/SpringSecurity/Oauth2.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "README.md",
+                "file": "md/Spring全家桶/SpringSecurity/Oauth2.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -120,44 +120,57 @@
             }
           },
           {
-            "id": "51cfa68950d59346",
-            "type": "leaf",
-            "state": {
-              "type": "outline",
-              "state": {
-                "file": "README.md"
-              }
-            }
-          },
-          {
             "id": "19671bf8d40aa220",
             "type": "leaf",
             "state": {
               "type": "quiet-outline",
               "state": {}
             }
+          },
+          {
+            "id": "44903e5e98823e73",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {}
+            }
+          },
+          {
+            "id": "f5e918c80b8e93cf",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "md/Spring全家桶/SpringSecurity/Oauth2.md"
+              }
+            }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 307.5
+    "width": 274.5
   },
   "left-ribbon": {
     "hiddenItems": {
       "command-palette:打开命令面板": false,
       "obsidian-excalidraw-plugin:新建绘图文件": false,
       "graph:查看关系图谱": false,
-      "table-editor-obsidian:Advanced Tables Toolbar": false,
       "templates:插入模板": true,
+      "table-editor-obsidian:Advanced Tables Toolbar": true,
       "random-note:开始漫游笔记": false,
       "markdown-importer:打开 Markdown 格式转换器": true,
       "workspaces:管理工作区布局": true
     }
   },
-  "active": "5ab31973adad630f",
+  "active": "00ac27baee194c40",
   "lastOpenFiles": [
+    "授权请求.md",
+    "md/Spring全家桶/SpringSecurity/Oauth2.md",
+    "toc.md",
+    "md/数据结构与算法/数据结构/链表.md",
+    "README.md",
     "attachments/Pasted Image 20231123115608_338.png",
     "public/webfonts/fa-solid-900.svg",
     "public/webfonts/fa-regular-400.svg",
@@ -168,7 +181,6 @@
     "public/apple-touch-icon.png",
     "public/android-chrome-512x512.png",
     "public/android-chrome-192x192.png",
-    "attachments/Pasted Image 20231123115536_952.png",
     "excalidraw/leetcode/24.两两交换链表中的节点.excalidraw.md",
     "excalidraw/leetcode/88-合并两个有序数组.excalidraw.md",
     "excalidraw/leetcode/189.轮转数组.excalidraw.md",
@@ -192,10 +204,6 @@
     "md/工具/开发者工具/MapStruct.md",
     "md/杂记/Windows11中安装Linux教程之WLS2的使用.md",
     "md/杂记/Windows-Terminal美化.md",
-    "md/杂记/README.md",
-    "md/杂记/手绘风格的开源白板Excalidraw搭建教程.md",
-    "md/杂记/开发环境搭建.md",
-    "md/研磨设计模式/装饰器模式.md",
     "node_modules/yargonaut/node_modules/supports-color/package.json",
     "node_modules/yargonaut/node_modules/supports-color/license",
     "node_modules/yargonaut/node_modules/supports-color/index.js",

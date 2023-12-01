@@ -1,7 +1,17 @@
 {
   "callouts": {
-    "custom": [],
-    "settings": {}
+    "custom": [
+      "demo"
+    ],
+    "settings": {
+      "demo": [
+        {
+          "changes": {
+            "icon": "lucide-clipboard-check"
+          }
+        }
+      ]
+    }
   },
   "calloutDetection": {
     "obsidianFallbackForced": false,

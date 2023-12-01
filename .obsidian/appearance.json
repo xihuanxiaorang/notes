@@ -3,7 +3,7 @@
   "cssTheme": "Minimal",
   "interfaceFontFamily": "霞鹜文楷等宽",
   "monospaceFontFamily": "JetBrains Mono NL",
-  "textFontFamily": "霞鹜文楷等宽,JetBrains Mono NL",
+  "textFontFamily": "霞鹜文楷等宽,霞鹜文楷 GB 屏幕阅读版,JetBrains Mono NL",
   "baseFontSizeAction": true,
   "theme": "system",
   "nativeMenus": false,

@@ -30,6 +30,8 @@
     * [SpringBoot-返回结果统一封装](/md/Spring全家桶/SpringBoot/SpringBoot-返回结果统一封装.md)
     * [SpringBoot-统一参数校验](/md/Spring全家桶/SpringBoot/SpringBoot-统一参数校验.md)
     * [自定义 SpringBoot Starter](/md/Spring全家桶/SpringBoot/自定义SpringBoot-Starter.md)
+  * SpringSecurity
+    * [Oauth2](/md/Spring全家桶/SpringSecurity/Oauth2.md)
   * SpringCloudAlibaba
     * [Nacos-Discovery&Config](/md/Spring全家桶/SpringCloudAlibaba/Nacos-Discovery&Config.md)
 * MySQL
