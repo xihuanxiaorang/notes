@@ -527,3 +527,26 @@ public @interface SpringBootApplication {
        }
    }
    ```
+
+## Maven 插件统一修改聚合工程项目版本号
+
+```xml
+<plugin>  
+    <groupId>org.codehaus.mojo</groupId>  
+    <artifactId>versions-maven-plugin</artifactId>  
+</plugin>
+```
+
+该插件已被 `spring-boot-dependencies` 所管理，因此直接引入即可，无需额外添加版本号。
+
+使用 `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT` 命令修改项目的版本号，修改成功后，所有模块的版本号都会变成 `0.0.1-SNAPSHOT`。
+
+默认情况下（`generateBackupPoms=true`），会生成 `pom.xml.versionsBackup` 备份文件, 此时如果觉得修改的不对，可以使用 `mvn versions:revert` 进行回滚。
+
+查看修改之后的 `pom.xml` 文件，觉得没有问题，就可以使用 `mvn versions:commit` 命令进行确认，该命令会删除修改版本号时生成的备份文件。
+
+可以使用 `mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -DgenerateBackupPoms=false` 命令直接修改版本号无需确认。如果你设置 ` generateBackupPoms=false `，则直接修改 ` pom.xml ` 文件，不会生成备份文件，也就无法回退版本号，也就不需要使用 ` commit ` 命令再次确认。
+
+> [!error]
+> **在修改版本号之前，必须保证父子模块的版本号一致**，如果之前手动修改过父模块的版本号导致父子模块的版本号不一致，此时使用插件统一修改项目的版本号是不成功的！会抛出如下错误：子模块中 `parent` 的版本号与父模块中的 `version` 版本号不一致！ ![](https://cdn.jsdelivr.net/gh/xihuanxiaorang/img/202312011335841.png)
+> 此时需要先将父模块的 `version` 版本号改回来，变成和子模块中 ` parent ` 的版本号一致，才能使用插件统一修改，否则的话修改不成功！
