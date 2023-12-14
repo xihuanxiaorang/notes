@@ -58,6 +58,9 @@ OAuth2 是 OAuth 协议的下一版本，但不向下兼容 OAuth 1.0。传统�
 
 授权许可是代表资源所有者的授权 (访问其受保护的资源) 的凭证，客户端使用该凭证来获取访问令牌。该规范定义了四种授权模式——**授权码模式**、**简化模式**、**密码模式**和**客户端模式**——以及用于定义其他类型的可扩展性机制。
 
+> [!tip]
+> 建议先阅读下面的 [案例演示](#案例演示) 章节，然后比对着看就知道何种授权模式该发送怎样的请求！
+
 #### 授权码模式
 
 > [RFC 6749 - The OAuth 2.0 Authorization Framework | 4.1 Authorization Code Grant](https://datatracker.ietf.org/doc/html/rfc6749#section-4.1)
@@ -121,9 +124,6 @@ OAuth2 是 OAuth 协议的下一版本，但不向下兼容 OAuth 1.0。传统�
 | scope | 授权范围，如果与客户端申请的范围相同，可省略 [Section 3.3](https://datatracker.ietf.org/doc/html/rfc6749#section-3.3) | OPTIONAL |
 | state | 表示客户端的当前状态，为预防 CSRF 攻击，请务必设定此值并进行严格检查，认证服务器会原封不动地返回这个值 | RECOMMENDED |
 
-> [!example]
-> 客户端指示用户代理发出 GET 请求：[http://localhost:8080/oauth/authorize?client_id=client1&response_type=code&scope=scope1&redirect_uri=https://www.baidu.com&state=abc](http://localhost:8080/oauth/authorize?client_id=client1&response_type=code&scope=scope1&redirect_uri=https://www.baidu.com&state=abc)
-
 授权服务器验证该请求，以确保所有必需的参数都存在并且有效。如果请求有效，授权服务器对资源所有者进行身份验证，并获得授权决定 (通过询问资源所有者或通过其他方式建立批准)。
 
 一旦做出决定，授权服务器将使用 HTTP 重定向响应或通过用户代理提供的其他方式将用户代理直接发送到提供的客户端重定向 URI。
@@ -139,17 +139,11 @@ OAuth2 是 OAuth 协议的下一版本，但不向下兼容 OAuth 1.0。传统�
 | code  | 授权服务器生成的授权码。授权码必须在发布后不久过期，以降低泄露的风险。建议授权码的最长生存期为 10 分钟。客户不得多次使用授权代码。如果授权码被多次使用，授权服务器必须拒绝该请求，并且应该撤销 (如果可能的话) 先前基于该授权码颁发的所有令牌。授权码被绑定到客户端标识符和重定向 URI。 | REQUIRED                                           |
 | state | 表示客户端的当前状态，为预防 CSRF 攻击，请务必设定此值并进行严格检查，认证服务器会原封不动地返回这个值 | REQUIRED 如果客户端授权请求中存在 "state" 参数的话 |
 
-> [!example]
-> 授权服务器通过发送以下 HTTP 响应重定向到用户代理： https://www.baidu.com/?code=KVXJFW&state=abc
-
 ###### 错误响应
 
 > [RFC 6749 - The OAuth 2.0 Authorization Framework | 4.1.2.1 Error Response](https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.2.1)
 
 如果由于重定向 URI 缺失、无效或不匹配而导致请求失败，或者如果客户端标识符缺失或无效，则授权服务器应将该错误通知资源所有者，并且不得自动将用户代理重定向到无效的重定向 URI。
-
-> [!example]
-> 当缺少必须参数 `reponse_type` 时，将返回 https://www.baidu.com/?error=unsupported_response_type&error_description=Unsupported%20response%20types:%20%5B%5D&state=abc
 
 如果资源所有者拒绝访问请求，或者请求由于缺少或无效的重定向 URI 以外的原因而失败，授权服务器通过使用 "application/x-www-form-urlencode" 格式向重定向 URI 的查询参数添加以下参数来通知客户端：
 
@@ -170,9 +164,6 @@ OAuth2 是 OAuth 协议的下一版本，但不向下兼容 OAuth 1.0。传统�
 - server_error：授权服务器遇到意外情况，无法完成请求。(此错误代码是必需的，因为 500 内部服务器错误 HTTP 状态代码无法通过 HTTP 重定向返回给客户端。)
 - temporarily_unavailable：由于服务器临时过载或维护，授权服务器当前无法处理该请求。(此错误代码是必需的，因为 503 服务不可用 HTTP 状态代码无法通过 HTTP 重定向返回给客户端。)
 
-> [!example]
-> 当资源所有者拒绝请求时，将返回 https://www.baidu.com/?error=access_denied&error_description=User%20denied%20access&state=abc
-
 ##### 访问令牌请求
 
 > [RFC 6749 - The OAuth 2.0 Authorization Framework | 4.1.3 Access Token Request](https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.3)
@@ -186,9 +177,6 @@ OAuth2 是 OAuth 协议的下一版本，但不向下兼容 OAuth 1.0。传统�
 | redirect_uri  | 重定向 URI，必须与授权请求中的该参数值保持一致                                                   | REQUIRED |
 | client_id     | 客户端唯一标识                                               | REQUIRED |
 | client_secret | 客户端密钥，需要带上该参数，用于验证客户端身份，否则会报错 { "error": "invalid_client","error_description": "Bad client credentials" } | REQUIRED |
-
-> [!example]
-> 客户端指示用户代理发出 POST 请求：[http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=authorization_code&code=3eLRrm&redirect_uri=https://www.baidu.com](http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=authorization_code&code=3eLRrm&redirect_uri=https://www.baidu.com)
 
 授权服务器必须：
 
@@ -308,9 +296,6 @@ Connection: keep-alive
 | scope         | 授权范围，如果与客户端申请的范围相同，可省略                                                     | OPTIONAL    |
 | state         | 表示客户端的当前状态，为预防 CSRF 攻击，请务必设定此值并进行严格检查，认证服务器会原封不动地返回这个值。 | RECOMMENDED |
 
-> [!example]
-> 客户端指示用户代理发出 GET 请求：[http://localhost:8080/oauth/authorize?client_id=client1&response_type=token&scope=scope1&redirect_uri=https://www.baidu.com&state=abc](http://localhost:8080/oauth/authorize?client_id=client1&response_type=token&scope=scope1&redirect_uri=https://www.baidu.com&state=abc)
-
 授权服务器验证请求，以确保所有必需的参数都存在且有效。授权服务器必须验证将访问令牌重定向到的重定向 URI 是否与客户端注册的重定向 URI 匹配，如 [Section 3.1.2](https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2) 节所述。
 
 如果请求有效，授权服务器对资源所有者进行身份验证，并获得授权决定 (通过询问资源所有者或通过其他方式建立批准)。
@@ -333,9 +318,6 @@ Connection: keep-alive
 
 > [!important]
 > 在此模式下授权服务器**不会生成刷新令牌**！
-
-> [!example]
-> 授权服务器通过发送以下 HTTP 响应重定向到用户代理：https://www.baidu.com/#access_token=209216a9-c49a-48cd-8105-0193f028b423&token_type=bearer&state=abc&expires_in=1909
 
 #### 密码模式
 
@@ -391,10 +373,7 @@ Connection: keep-alive
 | client_id     | 客户端唯一标识客户端唯一标识                                 | REQUIREDREQUIRED |
 | client_secret | 客户端密钥，需要带上该参数，用于验证客户端身份，否则会报错 { "error": "invalid_client","error_description": "Bad client credentials" } | REQUIRED         |
 
-如果客户端类型是保密的，或者客户端被颁发了客户端证书 (或者分配了其他身份验证要求) ，则客户端必须按照第 [Section 3.2.1](https://datatracker.ietf.org/doc/html/rfc6749#section-3.2.1) 节中的说明向授权服务器进行身份验证。可以在请求中添加 `client_id` 和 `client-secret` 两个参数。
-
-> [!example]
-> 客户端指示用户代理发出 POST 请求：[http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=password&username=admin&password=123456&scope=scope1](http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=password&username=admin&password=123456&scope=scope1)
+如果客户端类型是保密的，或者客户端被颁发了客户端证书 (或者分配了其他身份验证要求) ，则客户端必须按照第 [Section 3.2.1](https://datatracker.ietf.org/doc/html/rfc6749#section-3.2.1) 节中的说明向授权服务器进行身份验证（可以在请求头中增加 `Authorization: Basic client_id client_secret`）。
 
 授权服务器必须：
 
@@ -446,9 +425,6 @@ Connection: keep-alive
 | scope         | 授权范围，如果与客户端申请的范围相同，可省略                 | OPTIONAL |
 | client_id     | 客户端唯一标识客户端唯一标识                                 | REQUIRED |
 | client_secret | 客户端密钥，需要带上该参数，用于验证客户端身份，否则会报错 { "error": "invalid_client","error_description": "Bad client credentials" } | REQUIRED |
-
-> [!example]
-> 客户端指示用户代理发出 POST 请求：[http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=client_credentials&scope=scope1](http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=client_credentials&scope=scope1)
 
 ##### 访问令牌响应
 
@@ -660,17 +636,35 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 现在启动授权服务器，测试 使用授权码模式**申请授权码**和**申请访问令牌**以及**刷新访问令牌**的整体流程，如下所示：
 
 1. 申请授权码：
-   1. 浏览器访问授权服务器的授权端点（/oauth/authorize），发送 [授权请求](#授权请求)： http://localhost:8080/oauth/authorize?client_id=client1&response_type=code&scope=scope1&redirect_uri=https://www.baidu.com&state=abc ，其中的 redirect_uri、scope 和 state 参数不是必须的；
+   1. 浏览器访问授权服务器的授权端点（/oauth/authorize），以最简的方式（即带上必要的参数，可选以及推荐的参数省略）发送 [授权请求 | 授权码模式](#授权请求)： [http://localhost:8080/oauth/authorize?client_id=client1&response_type=code](http://localhost:8080/oauth/authorize?client_id=client1&response_type=code) ，其中的 redirect_uri、scope 和 state 参数不是必须的；
    2. 出现如下所示 SpringSecurity 默认的登录表单，输入用户名 `admin` 和密码 `123456`，认证成功！<br /> ![](https://cdn.jsdelivr.net/gh/xihuanxiaorang/img/202311241728359.png)
    3. 出现如下所示授权界面：选择 `Approve` 同意，然后点击 `Authorize` 授权按钮。<br /> ![](https://cdn.jsdelivr.net/gh/xihuanxiaorang/img/202311241552057.png)
-   4. 重定向到配置的百度首页 `https://www.baidu.com/?code=5vCHSO`，可以发现请求路径上带着返回的<span style="background:rgba(255, 183, 139, 0.55)">授权码</span> `code`，获取到授权码之后就可以拿着该授权码去申请<span style="background:rgba(240, 167, 216, 0.55)">访问令牌</span> ` token `。
-2. 申请访问令牌：发送 [访问令牌请求](#访问令牌请求)： POST http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=authorization_code&code=8EsZtG&redirect_uri=https://www.baidu.com ，其中授权码 `code` 参数的值替换成上一步申请到的授权码即可。响应结果如下所示：
+   4. 重定向到配置的百度首页 `https://www.baidu.com/?code=LUKGaf`，可以发现请求路径上带着返回的<span style="background:rgba(255, 183, 139, 0.55)">授权码</span> `code`，获取到授权码之后就可以拿着该授权码去申请<span style="background:rgba(240, 167, 216, 0.55)">访问令牌</span> ` token `。
+2. 申请访问令牌, [访问令牌请求](#访问令牌请求)，存在以下三种方式，任选其中一种即可：
+   1. 使用 IDEA 中的 Http Client 工具发送 POST 请求（在项目的 `resources` 资源目录下新建一个 `.http` 文件），如下所示：
+
+      ```
+      ### 授权码模式（使用授权码申请访问令牌）
+      POST http://localhost:8080/oauth/token?grant_type=authorization_code&code=LUKGaf
+      Authorization: Basic client1 123456
+      ```
+
+      > [!attention]
+      > 需要将其中的 code 替换成上一步申请到的授权码，并且 Basic 认证不能省略，否则的话会抛出 Unauthorized 错误！
+
+   2. 使用 Git Bash 发送 curl 命令，关于 curl 命令各个参数的具体解释请参考 [curl 的用法指南 - 阮一峰的网络日志 (ruanyifeng.com)](https://www.ruanyifeng.com/blog/2019/09/curl-reference.html)：`curl -i -X POST -H "Content-Type:application/json" -H "Authorization:Basic Y2xpZW50MToxMjM0NTY=" 'http://localhost:8080/oauth/token?grant_type=authorization_code&code=LUKGaf'`，如下所示：<br />![image-20231203164452202](https://cdn.jsdelivr.net/gh/xihuanxiaorang/img/202312031644275.png)
+
+      其中的 `Y2xpZW50MToxMjM0NTY=` 为客户端 id 以及 secret 经过 Base64 编码之后的结果，咱们尝试解码着解码看下，如下所示：<br /> ![](https://cdn.jsdelivr.net/gh/xihuanxiaorang/img/202312031628966.png)
+
+   3. Edge 安装 [Talend API Tester - Free Edition (google.com)](https://chromewebstore.google.com/detail/talend-api-tester-free-ed/aejoelaoggembcahagimdiliamlcdmfm) 插件，如下所示：<br />![image-20231203165202536](https://cdn.jsdelivr.net/gh/xihuanxiaorang/img/202312031652608.png)
+
+   响应结果如下所示：
 
    ```json
    {
      "access_token": "6cac987e-d07b-459b-ad3d-26d7988d913a",
      "token_type": "bearer",
-     "refresh_token": "06da0a50-4965-4e38-99ff-522ca4b6b8b5",
+     "refresh_token": "5a65a50b-b511-4a23-b007-5261bb564b55",
      "expires_in": 7199,
      "scope": "scope1"
    }
@@ -680,7 +674,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
    >
    > **一个授权码只能使用一次！！！**如果再次使用该授权码去申请访问令牌的话，则会报 { "error": "invalid_grant", "error_description": "Invalid authorization code: k6zoSY" } 错误！
 
-3. 刷新访问令牌：发送 POST 请求： http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=refresh_token&refresh_token=06da0a50-4965-4e38-99ff-522ca4b6b8b5 ，其中刷新令牌 `refresh_token` 参数的值替换成上面申请访问令牌响应中对应的值即可。响应结果如下所示：
+3. 刷新访问令牌，使用 Git Bash 发送 curl 命令： ` curl -i -X POST -H "Content-Type:application/json" -H "Authorization:Basic Y2xpZW50MToxMjM0NTY=" 'http://localhost:8080/oauth/token?grant_type=refresh_token&refresh_token=5a65a50b-b511-4a23-b007-5261bb564b55'` ，其中刷新令牌 `refresh_token` 参数的值替换成上面申请访问令牌响应中对应的值即可。响应结果如下所示：
 
    ```json
    {
@@ -716,13 +710,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
    }
    ```
 
-   重新启动项目，再次测试，响应结果如下所示：
+   重新启动项目，再次测试，<br />![image-20231203170132779](https://cdn.jsdelivr.net/gh/xihuanxiaorang/img/202312031701836.png)
+
+   响应结果如下所示：
 
    ```json
    {
-     "access_token": "7157a890-8942-4078-9a67-3d0f76683d7d",
+     "access_token": "07fe86b7-69cd-43dd-8747-6b16034c309d",
      "token_type": "bearer",
-     "refresh_token": "06da0a50-4965-4e38-99ff-522ca4b6b8b5",
+     "refresh_token": "5a65a50b-b511-4a23-b007-5261bb564b55",
      "expires_in": 7200,
      "scope": "scope1"
    }
@@ -736,7 +732,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 > [!demo]+ 测试使用密码模式**申请访问令牌**和**刷新访问令牌**的整体流程
 >
-> 1. 申请访问令牌：发送 [访问令牌请求](#访问令牌请求%20password-accesstoken-request)：POST [http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=password&username=admin&password=123456&scope=scope1](http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=password&username=admin&password=123456&scope=scope1)，其中除了 `scope` 参数之外其他参数都是必须的。响应结果如下所示：
+> 1. 申请访问令牌，发送 [访问令牌请求](#访问令牌请求%20password-accesstoken-request)，使用 Git Bash 发送 curl 命令： ` curl -i -X POST -H "Authorization:Basic Y2xpZW50MToxMjM0NTY=" -H "Content-Type:application/json" 'http://localhost:8080/oauth/token?grant_type=password&username=admin&password=123456'` ，响应结果如下所示：
 >
 >    ```json
 >    {
@@ -771,9 +767,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 >       @EnableAuthorizationServer
 >       public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 >           ...
->                                                                                                                                                                                                                                                    
+>                   
 >           private final AuthenticationManager authenticationManager;
->                                                                                                                                                                                                                                                    
+>                   
 >           @Override
 >           public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
 >               clients.inMemory()
@@ -784,42 +780,42 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 >                       .scopes("scope1")
 >                       .redirectUris("https://www.baidu.com");
 >           }
->                                                                                                                                                                                                                                                    
+>                   
 >           @Override
 >           public void configure(final AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 >               endpoints
 >                       .userDetailsService(userDetailsService)
 >                       .authenticationManager(authenticationManager);
 >           }
->                                                                                                                                                                                                                                           
+>                   
 >                    ...
 >       }
 >       ```
 >
->   重新启动项目，再次发送请求，发现可以正常返回访问令牌以及刷新令牌：
+>    重新启动项目，再次发送请求，发现可以正常返回访问令牌以及刷新令牌：<br />![image-20231204121402704](https://cdn.jsdelivr.net/gh/xihuanxiaorang/img/202312041214806.png)
 >
->   ```json
->    {
->      "access_token": "afff4bc7-7084-48b2-9744-ec7696616e42",
->      "token_type": "bearer",
->      "refresh_token": "5e8fe13a-a7c4-4f49-acd3-8675c4c37325",
->      "expires_in": 7199,
->      "scope": "scope1"
->    }
->   ```
+>    ```json
+>     {
+>       "access_token": "2a043450-245f-465d-9299-2050f1c0c395",
+>       "token_type": "bearer",
+>       "refresh_token": "5d5dc7d3-4431-4663-bfa4-87725d35266f",
+>       "expires_in": 42567,
+>       "scope": "scope1"
+>     }
+>    ```
 >
->2. 刷新访问令牌：发送 POST 请求：[http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=refresh_token&refresh_token=5e8fe13a-a7c4-4f49-acd3-8675c4c37325](http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=refresh_token&refresh_token=5e8fe13a-a7c4-4f49-acd3-8675c4c37325)，其中刷新令牌 `refresh_token` 参数的值替换成上面申请访问令牌响应中对应的值即可。响应结果如下所示：
+> 2. 刷新访问令牌：与授权码模式刷新访问令牌一模一样，使用 Git Bash 发送 curl 命令： ` curl -i -X POST -H "Content-Type:application/json" -H "Authorization:Basic Y2xpZW50MToxMjM0NTY=" 'http://localhost:8080/oauth/token?grant_type=refresh_token&refresh_token=5d5dc7d3-4431-4663-bfa4-87725d35266f'` ，其中刷新令牌 `refresh_token` 参数的值替换成上面申请访问令牌响应中对应的值即可。响应结果如下所示：<br />![image-20231204122125692](https://cdn.jsdelivr.net/gh/xihuanxiaorang/img/202312041221764.png)
 >
->   ```json
->    {
->      "access_token": "eb3e81cc-4107-431d-aaf3-f220df10b99a",
->      "token_type": "bearer",
->      "refresh_token": "5e8fe13a-a7c4-4f49-acd3-8675c4c37325",
->      "expires_in": 7200,
->      "scope": "scope1"
->    }
->   ```
-
+>    ```json
+>     {
+>       "access_token": "bfae5434-9282-4aa5-8e49-2d01a1839cc2",
+>       "token_type": "bearer",
+>       "refresh_token": "5d5dc7d3-4431-4663-bfa4-87725d35266f",
+>       "expires_in": 43200,
+>       "scope": "scope1"
+>     }
+>    ```
+>
 > [!demo]+ 测试使用简化模式申请访问令牌的整体流程
 >
 > 在测试之前，首先使当前客户端支持简化模式，否则的话会抛出 `error=invalid_client&error_description=Unauthorized grant type: implicit` 错误！
@@ -841,7 +837,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 >
 > 2. 出现如下所示 SpringSecurity 默认的登录表单，输入用户名 `admin` 和密码 `123456`，认证成功！<br /> ![](https://cdn.jsdelivr.net/gh/xihuanxiaorang/img/202311241728359.png)
 > 3. 出现如下所示授权界面：选择 `Approve` 同意，然后点击 `Authorize` 授权按钮。<br /> ![](https://cdn.jsdelivr.net/gh/xihuanxiaorang/img/202311241552057.png)
-> 4. 重定向到配置的百度首页 `https://www.baidu.com/#access_token=1a99269f-aff4-4b48-9c01-cf0f61d25305&token_type=bearer&state=abc&expires_in=7199`，可以发现请求路径上带着返回的<span style="background:rgba(255, 183, 139, 0.55)">访问令牌</span> `access_token`。
+> 4. 重定向到配置的百度首页 `https://www.baidu.com/#access_token=bfae5434-9282-4aa5-8e49-2d01a1839cc2&token_type=bearer&state=abc&expires_in=42892`，可以发现请求路径上带着返回的<span style="background:rgba(255, 183, 139, 0.55)">访问令牌</span> `access_token`。
 >
 > > [!attention]
 > >
@@ -855,25 +851,27 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 > @Override
 > public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
 > clients.inMemory()
->       .withClient("client1")
->       .secret(passwordEncoder.encode("123456"))
->       .resourceIds("res1")
->       .authorizedGrantTypes("authorization_code", "refresh_token", "password", "implicit", "client_credentials")
->       .scopes("scope1")
->       .redirectUris("https://www.baidu.com");
+> .withClient("client1")
+> .secret(passwordEncoder.encode("123456"))
+> .resourceIds("res1")
+> .authorizedGrantTypes("authorization_code", "refresh_token", "password", "implicit", "client_credentials")
+> .scopes("scope1")
+> .redirectUris("https://www.baidu.com");
 > }
 > ```
 >
-> 发送 [访问令牌请求](#访问令牌请求%20client-credentials-accesstoken-request)： POST [http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=client_credentials&scope=scope1](http://localhost:8080/oauth/token?client_id=client1&client_secret=123456&grant_type=client_credentials&scope=scope1)，其中除了 `scope` 参数之外其他参数都是必须的。响应结果如下所示：在此模式下授权服务器同样**不会生成刷新令牌**！
+> 发送 [访问令牌请求](#访问令牌请求%20client-credentials-accesstoken-request)，使用 Git Bash 发送 curl 命令： `curl -i -X POST -H "Content-Type:application/json" -H "Authorization:Basic Y2xpZW50MToxMjM0NTY=" 'http://localhost:8080/oauth/token?grant_type=client_credentials'`，响应结果如下所示：<br />![image-20231204123427683](https://cdn.jsdelivr.net/gh/xihuanxiaorang/img/202312041234733.png)
 >
 > ```json
 > {
-> "access_token": "6b3351e1-ba0a-4621-950b-8edf4760d349",
+> "access_token": "1375d262-4e78-4537-a2a0-1be2fde23615",
 > "token_type": "bearer",
-> "expires_in": 7199,
+> "expires_in": 43077,
 > "scope": "scope1"
 > }
 > ```
+>
+> 在此模式下授权服务器同样**不会生成刷新令牌**！
 
 #### 基于数据库的客户端和令牌存储
 
@@ -1524,18 +1522,16 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 JWT 默认生成的用户信息主要是用户角色、用户名等，如果咱们希望在生成的 JWT 上面添加额外的信息，可以按照如下方式添加：
 
 ```java
-@Bean
-public TokenEnhancer customAdditionalInformation() {
-    return (accessToken, authentication) -> {
-        final Map<String, Object> additionalInformation = accessToken.getAdditionalInformation();
-        Map<String, String> info = new LinkedHashMap<>();
-        info.put("author", "xiaorang");
-        info.put("blog", "https://blog.xiaorang.fun");
-        info.put("github", "https://github.com/xihuanxiaorang");
-        additionalInformation.put("info", info);
-        ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
-        return accessToken;
-    };
+@Bean  
+public TokenEnhancer customAdditionalInformation() {  
+    return (accessToken, authentication) -> {  
+        Map<String, Object> additionalInformation = new LinkedHashMap<>();  
+        additionalInformation.put("author", "xiaorang");  
+        additionalInformation.put("blog", "https://blog.xiaorang.fun");  
+        additionalInformation.put("github", "https://github.com/xihuanxiaorang");  
+        ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);  
+        return accessToken;  
+    };  
 }
 ```
 
@@ -1549,36 +1545,30 @@ public AuthorizationServerTokenServices tokenServices() {
     defaultTokenServices.setAccessTokenValiditySeconds(60 * 60 * 24 * 2);
     defaultTokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);
     final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-    // TOKEN 增强链的顺序需要保证 JwtAccessTokenConverter 位于附加信息增强器之前
-    tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtAccessTokenConverter(), customAdditionalInformation()));
+    tokenEnhancerChain.setTokenEnhancers(Arrays.asList(customAdditionalInformation(), jwtAccessTokenConverter()));
     defaultTokenServices.setTokenEnhancer(tokenEnhancerChain);
     return defaultTokenServices;
 }
 ```
 
-Token 增强器处理的顺序是按照集合中保存的顺序，就是先在 `JwtAccessTokenConverter` 中处理，然后在 `CustomAdditionalInformation ` 中处理，顺序不能乱！
-
 重新启动授权服务器，使用密码模式申请访问令牌，响应如下所示：
 
 ```json
 {
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicmVzMSIsInJlczIiXSwidXNlcl9uYW1lIjoiYWRtaW4iLCJzY29wZSI6WyJzY29wZTEiLCJzY29wZTIiXSwiZXhwIjoxNzAxNTA2OTY1LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIl0sImp0aSI6IjdmZTdiZWY3LWJiNjYtNDk4Mi1iZDJiLTZmNTczYThkZTM0ZCIsImNsaWVudF9pZCI6ImNsaWVudDEifQ.a8aLiQitPJ8lITPS9z5ss3q5xmVgjaBpA6MPwW1Uf1A",
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicmVzMSIsInJlczIiXSwidXNlcl9uYW1lIjoiYWRtaW4iLCJzY29wZSI6WyJzY29wZTEiLCJzY29wZTIiXSwiZXhwIjoxNzAxNjY1MzQyLCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIl0sImp0aSI6IjMyOWM3MjUyLWRiNDctNDBkZC04MjQ1LTQ1YjEzMGJkM2NiZSIsImNsaWVudF9pZCI6ImNsaWVudDEifQ.e7-DWAf0PDoHqXFYGlLHTLZL9rm_qBM5d8tK03uE__Ocd-yUhU99m3z6F4oW_F56XH6aGHYAQv6pxDFZ1TxEEyoitzzkkZaL69dE7I6xprxrY3JZgvXOqNx4KqjL4R_WIEO9KvwSHjpqJezkYO2E81G9ZswoRK6au4s0kxJoXLrMw6qhPvLARVll7PA1i2aA0NNPlVBNuD6P13W-PflFawdb7D3rm33985Y2yU2TAjLTsiXsDLPo3CIGw-JgB3Hb5K67f1ZsEnhNdsr2s6KkW1P_3gb6UemYmWp-hHSLgfb4Cb8UqpYMdOBvYbjzcIIrioJTpJ5PO2DIAxR4XKiyrA",
   "token_type": "bearer",
-  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicmVzMSIsInJlczIiXSwidXNlcl9uYW1lIjoiYWRtaW4iLCJzY29wZSI6WyJzY29wZTEiLCJzY29wZTIiXSwiYXRpIjoiN2ZlN2JlZjctYmI2Ni00OTgyLWJkMmItNmY1NzNhOGRlMzRkIiwiZXhwIjoxNzAxOTM4OTY1LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIl0sImp0aSI6IjgxZGNkYjk3LTdhNWQtNDYwZi1hNjU3LWU0ZDg1N2UwZTE4YSIsImNsaWVudF9pZCI6ImNsaWVudDEifQ.m5APuu7eXy-oJE76s50_3ykMWZi266o38N2D-HjilJY",
+  "refresh_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicmVzMSIsInJlczIiXSwidXNlcl9uYW1lIjoiYWRtaW4iLCJzY29wZSI6WyJzY29wZTEiLCJzY29wZTIiXSwiYXRpIjoiMzI5YzcyNTItZGI0Ny00MGRkLTgyNDUtNDViMTMwYmQzY2JlIiwiZXhwIjoxNzAyMDk3MzQyLCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIl0sImp0aSI6IjI2YjUwYjY1LTBmMGQtNDVkYi1iMzVlLWY4ZmJkMTViMmEwOSIsImNsaWVudF9pZCI6ImNsaWVudDEifQ.cVte7xk3FWixV0aGzXx_rf1jt_Cl8rxmTN9rmcQyCtJgbutrb5AE1TinKVNUF9L9vR0U1bIDYgqDsCPkqC8E99rJkdR1wBxgrd6AfH79MJwo1Gm672fYAGvl8WD26IGbdUWOr51qoTMFYiHMHmqKZqcWpxaoyF4ZwjeGJyOMw110utfqb3I_iZlEIBChBHZPdcEESOMwvRK2djSeufbJ97P0FNUI234wWSg2GQy4P0FKXAexIj804IYN1sOb4A181l38N-T9Htqg0uYxdkWWZ6l2xO3PfPnlOMV0JFE3XT4dmgUyD2FUqH-PkBRLL6n5OwyTmGDfW2YpH9APeKehjw",
   "expires_in": 172799,
   "scope": "scope1 scope2",
-  "jti": "7fe7bef7-bb66-4982-bd2b-6f573a8de34d",
-  "info": {
-    "author": "xiaorang",
-    "blog": "https://blog.xiaorang.fun",
-    "github": "https://github.com/xihuanxiaorang"
-  }
+  "author": "xiaorang",
+  "blog": "https://blog.xiaorang.fun",
+  "github": "https://github.com/xihuanxiaorang"
 }
 ```
 
 ##### 非对称加解密
 
-在前面的例子中，JWT 令牌转换器使用的是最简单的**对称加密（授权服务器与资源服务器使用相同的密钥，加密和解密过程使用的是同一份密钥）**的方式来加密 JWT 内容：
+在前面的例子中，JWT 令牌转换器使用的是最简单的**对称加密（授权服务器和资源服务器使用同一个密钥进行加签和验签，默认算法 HMAC）** 的方式来加密 JWT 内容：
 
 ```java
 @Bean
@@ -1591,7 +1581,7 @@ public JwtAccessTokenConverter jwtAccessTokenConverter() {
 }
 ```
 
-在生产环境中，使用的是更加安全的**非对称加密**的方式来加密 JWT。非对称加密使用的是一对秘钥（**非对称密钥对**）：一个称为**私钥**，另一个称为**公钥**。授权服务器使用它的私钥签署令牌，而资源服务器则使用公钥验证签名。
+在生产环境中，使用的是更加安全的**非对称加密（授权服务器使用私钥加签，资源服务器使用公钥验签，默认算法 RSA）** 的方式来加密 JWT。
 
 > [!info]- OpenSSL 的下载安装（在后续生成非对称密钥对的过程中需要使用）
 >
@@ -1696,6 +1686,9 @@ private String getPublicKey() {
 	- [Spring Security + OAuth 2.0 + JWT 开发随笔 | Clay 的技术空间](https://www.techgrow.cn/posts/894ad1eb.html)
 	- [Re：从零开始的 Spring Security OAuth2（一） - 徐靖峰|个人博客](https://www.cnkirito.moe/Spring-Security-OAuth2-1/)
 	- [Spring Cloud实战 | 第六篇：Spring Cloud Gateway + Spring Security OAuth2 + JWT实现微服务统一认证授权鉴权 - 有来技术 - 博客园](https://www.cnblogs.com/haoxianrui/p/13719356.html)
+- 源码分析：
+	- [Spring Security OAuth2 源码分析 - 浮生若云 - 博客园](https://www.cnblogs.com/mxmbk/p/9952298.html)
+	- [Re：从零开始的 Spring Security OAuth2（二） - 徐靖峰|个人博客](https://www.cnkirito.moe/Spring-Security-OAuth2-2/)
 - 视频
 	- 【【编程不良人】SpringSecurity 最新实战教程，知识点完结！】 https://www.bilibili.com/video/BV1z44y1j7WZ/?share_source=copy_web&vd_source=84272a2d7f72158b38778819be5bc6ad
 	- 【最简单的使用 SpringOAuth2 进行分布式权限管理】 https://www.bilibili.com/video/BV1p5411N7Po/?share_source=copy_web&vd_source=84272a2d7f72158b38778819be5bc6ad

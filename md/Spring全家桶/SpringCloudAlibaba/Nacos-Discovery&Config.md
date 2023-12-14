@@ -1151,6 +1151,12 @@ ${prefix}-${spring.profiles.active}.${file-extension}
 
 ## 遇到的问题💣
 
+### Nacos 服务启动报错
+
+当使用 `.\startup.cmd -m standalone` 命令启动 Nacos 服务器时，抛出如下错误：<br /> ![](https://cdn.jsdelivr.net/gh/xihuanxiaorang/img/202312021009386.png)
+
+解决方案：将 Java 环境变量 `JAVA_HOME` 更换为更高的 JDK8 版本或直接使用 JDK11 版本及以上。
+
 ### `bootstrap.yml` 配置文件不生效
 
 当前环境：
