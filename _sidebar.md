@@ -34,6 +34,7 @@
     * [Oauth2](/md/Spring全家桶/SpringSecurity/Oauth2.md)
   * SpringCloudAlibaba
     * [Nacos-Discovery&Config](/md/Spring全家桶/SpringCloudAlibaba/Nacos-Discovery&Config.md)
+    * [RestTemplate&Ribbon](/md/Spring全家桶/SpringCloudAlibaba/RestTemplate&Ribbon.md)
 * MySQL
   * [通用表表达式](/md/MySQL/通用表表达式.md)
 * 中间件

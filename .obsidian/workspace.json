@@ -8,12 +8,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "bed5670eeb0ce8ff",
+            "id": "8101459b671d3c79",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "md/Spring全家桶/SpringSecurity/Oauth2.md",
+                "file": "md/工具/其他工具/视频下载工具.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 291.5
+    "width": 285.5
   },
   "right": {
     "id": "3464ea9515a27a51",
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "md/Spring全家桶/SpringSecurity/Oauth2.md",
+                "file": "md/工具/其他工具/视频下载工具.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "md/Spring全家桶/SpringSecurity/Oauth2.md",
+                "file": "md/工具/其他工具/视频下载工具.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -141,7 +141,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "md/Spring全家桶/SpringSecurity/Oauth2.md"
+                "file": "md/工具/其他工具/视频下载工具.md"
               }
             }
           }
@@ -165,53 +165,54 @@
       "hide-folders:Show hidden folders": false
     }
   },
-  "active": "269ed8a1cfd8163b",
+  "active": "8101459b671d3c79",
   "lastOpenFiles": [
+    "md/TypeScript/README.md",
+    "md/项目/uniapp/uniapp+vue3+ts项目模板搭建.md",
+    "md/杂记/开发环境搭建.md",
+    "excalidraw/数据结构/顺序表.excalidraw.md",
+    "md/杂记/README.md",
+    "md/杂记/Windows11中安装Linux教程之WLS2的使用.md",
+    "md/杂记/Windows-Terminal美化.md",
+    "md/工具/其他工具/篡改猴(Tampermonkey).md",
+    "md/工具/其他工具/视频下载工具.md",
+    "md/工具/其他工具/Office部署激活工具.md",
+    "md/工具/其他工具/PicList+Github搭建个人云图床.md",
+    "md/杂记/如何选择开源协议.md",
+    "md/杂记/正则表达式.md",
+    "md/杂记/手绘风格的开源白板Excalidraw搭建教程.md",
+    "md/项目/uniapp/小兔鲜儿.md",
+    "md/中间件/RabbitMQ/RabbitMQ-入门篇.md",
+    "md/TypeScript/环境搭建.md",
     "md/Spring全家桶/SpringCloudAlibaba/Nacos-Discovery&Config.md",
+    "md/Spring全家桶/Spring/Spring-注解驱动开发.md",
+    "md/Spring全家桶/Spring/Spring-IOC篇.md",
+    "md/数据结构与算法/数据结构/顺序表.md",
+    "md/TypeScript",
+    "excalidraw/leetcode/206.反转链表.excalidraw.md",
+    "excalidraw/leetcode/704-二分查找.excalidraw.md",
+    "excalidraw/leetcode/912.排序数组.excalidraw.md",
+    "excalidraw/spring全家桶/springcloudalibaba/nacos配置优先级.excalidraw.md",
+    "excalidraw/java/core/jdbc/JDBC执行流程.excalidraw.md",
+    "md/知识碎片",
+    "md/项目/uniapp",
+    "attachments/Pasted Image 20231123115232_366.png",
+    "attachments/Pasted Image 20231123115503_436.png",
+    "attachments/Pasted Image 20231123115424_306.png",
+    "attachments/Pasted Image 20231123115524_379.png",
+    "attachments/Pasted Image 20231123115536_952.png",
+    "attachments/Pasted Image 20231123115608_338.png",
     "public/webfonts/fa-solid-900.svg",
     "public/webfonts/fa-regular-400.svg",
     "public/webfonts/fa-brands-400.svg",
     "public/images/personal/wechat.png",
-    "public/favicon-32x32.png",
-    "public/favicon-16x16.png",
-    "public/apple-touch-icon.png",
-    "public/android-chrome-512x512.png",
-    "public/android-chrome-192x192.png",
-    "md/工具/其他工具/Office部署激活工具.md",
-    "excalidraw/spring全家桶/springcloudalibaba/nacos配置优先级.excalidraw.md",
-    "md/Spring全家桶/SpringBoot/SpringBootStarter.md",
-    "md/Spring全家桶/SpringSecurity/Oauth2.md",
-    "_coverpage.md",
-    "_sidebar.md",
-    "README.md",
-    "md/工具/其他工具/PicList+Github搭建个人云图床.md",
-    "md/Spring全家桶/SpringBoot/SpringBoot-返回结果统一封装.md",
-    "md/工具/开发者工具/MapStruct.md",
-    "md/Spring全家桶/SpringBoot/SpringBoot-统一参数校验.md",
-    "excalidraw/项目实战/Drawing 2023-12-06 01.11.01.excalidraw.md",
     "excalidraw/项目实战",
-    "md/杂记/README.md",
-    "md/杂记/开发环境搭建.md",
-    "attachments/Pasted Image 20231123115608_338.png",
-    "授权请求.md",
-    "toc.md",
-    "md/数据结构与算法/数据结构/链表.md",
-    "excalidraw/leetcode/24.两两交换链表中的节点.excalidraw.md",
-    "excalidraw/leetcode/88-合并两个有序数组.excalidraw.md",
-    "excalidraw/leetcode/189.轮转数组.excalidraw.md",
-    "excalidraw/leetcode/206.反转链表.excalidraw.md",
-    "excalidraw/leetcode/704-二分查找.excalidraw.md",
-    "excalidraw/leetcode/912.排序数组.excalidraw.md",
-    "excalidraw/leetcode/59.螺旋矩阵 II.excalidraw.md",
     "attachments/fonts/LXGWWenKaiMono-Bold.ttf",
     "attachments/fonts",
     "node_modules/yargonaut/node_modules/supports-color/package.json",
     "node_modules/yargonaut/node_modules/supports-color/license",
     "node_modules/yargonaut/node_modules/supports-color/index.js",
     "node_modules/yargonaut/node_modules/strip-ansi/package.json",
-    "node_modules/yargonaut/node_modules/strip-ansi/index.js",
-    "node_modules/yargonaut/node_modules/strip-ansi/license",
-    "node_modules/yargonaut/node_modules/chalk/package.json",
     "未命名.canvas"
   ]
 }
